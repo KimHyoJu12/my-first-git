@@ -185,10 +185,8 @@ introTl
   const el = document.querySelector('.circle-bg');
   if (!el) return;
   gsap.set(el, { transformOrigin: '50% 50%' });
-  gsap.to(el, { rotation: 360, duration: 50, ease: 'none', repeat: -1 });
+  gsap.to(el, { rotation: 360, duration: 10, ease: 'none', repeat: -1 });
 })();
-
-
 
 
 
@@ -204,7 +202,6 @@ const imagePaths = [
 ];
 const floatingWrapper = document.querySelector('.floating-images');
 const aboutSection = document.querySelector('.about-Intro');
-
 let lastTime = 0;
 const delay = 200; // ✅ 150ms마다 한 번만 이미지 생성
 
@@ -260,10 +257,7 @@ gsap.utils.toArray('.hobby .list li').forEach((card, index) => {
 
 
 
-
 // strength
-
-// 버전2
 const allTxt = gsap.utils.toArray(".Strength .txt");
 
 // 활성화 함수: 하나만 활성화, 나머지 다 끄기
@@ -366,6 +360,37 @@ window.addEventListener('load', () => {
   experienceImages();
   ScrollTrigger.refresh();
 });
+
+// story → 흰색
+gsap.timeline({
+  scrollTrigger: {
+    trigger: '.story', 
+    start: '10% 90%',
+    end: '100% 100%',
+    scrub: 1,
+    // markers: true
+  }
+})
+.to('.wrap', { backgroundColor:'#fff', color:'#000', ease:'none', duration:5 }, 0);
+
+// designIntro → 검정
+gsap.timeline({
+  scrollTrigger: {
+    trigger: '.designIntro', 
+    start: '10% 90%',
+    end: '100% 100%',
+    scrub: 1,
+    // markers: true
+  }
+})
+.to('.wrap', { backgroundColor:'#000', color:'#fff', ease:'none', duration:5 }, 0);
+
+
+
+
+
+
+
 
 
 
@@ -727,7 +752,7 @@ gsap.timeline({
 
 // topbutton
 $(window).on('scroll', function () {
-  if ($(this).scrollTop() > 200) {          // 임계값은 취향대로
+  if ($(this).scrollTop() > 200) {       
     $('.toTop').addClass('show');
   } else {
     $('.toTop').removeClass('show');
