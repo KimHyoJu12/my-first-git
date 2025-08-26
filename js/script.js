@@ -111,9 +111,6 @@ ScrollTrigger.create({
 });
 
 
-
-
-
 // 보라색
 document.addEventListener('DOMContentLoaded', () => {
   const glowTarget = document.querySelector('.side-description');
@@ -366,12 +363,44 @@ gsap.timeline({
   scrollTrigger: {
     trigger: '.story', 
     start: '10% 90%',
-    end: '100% 100%',
+    end: 'top 60%',
     scrub: 1,
     // markers: true
   }
 })
 .to('.wrap', { backgroundColor:'#fff', color:'#000', ease:'none', duration:5 }, 0);
+
+// story txt
+(() => {
+  gsap.to(".txtEn", {
+    color: "#858585",
+    opacity: 1,
+    duration: 3,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".txtEn",
+      start: "top 80%",
+      toggleActions: "play none none reverse"
+    }
+  });
+
+  gsap.to(".txtKor", {
+    color: "#858585",
+    opacity: 1,
+    duration: 1.5,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".txtKor",
+      start: "top 80%",
+      toggleActions: "play none none reverse"
+    }
+  });
+})();
+
+
+
+
+
 
 // designIntro → 검정
 gsap.timeline({
