@@ -9,6 +9,7 @@
     <script src="js/splitting.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/baffle@0.3.6/dist/baffle.min.js"></script>
      <script src="js/script.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css">
@@ -31,15 +32,14 @@
                 </div>
                 <nav>
                     <ul class="gnb">
-                        <li><a href="#" data-splitting>ABOUT</a></li>
-                        <li><a href="#" data-splitting>WORK</a></li>
-                        <li><a href="#" data-splitting>PROCESS</a></li>
-                        <li><a href="#" data-splitting>CONTACT</a></li>
+                        <li><a href="#about" data-splitting>ABOUT</a></li>
+                        <li><a href="#work" data-splitting>WORK</a></li>
+                        <li><a href="#process" data-splitting>PROCESS</a></li>
+                        <li><a href="#contack" data-splitting>CONTACT</a></li>
                     </ul>
                 </nav>
             </div>
         </header>
-
 
         <section class="value-scroll-layout">
                 <div class="inner">
@@ -124,7 +124,7 @@
 
 
          <!-- ABOUT -->         
-          <section class="about">
+          <section id="about" class="about">
             <div class="inner animate"data-animate="motion">
                 <div class="bottomBox">
                     <div class="left">
@@ -357,7 +357,7 @@
 
 
         <section class="Experience">
-            <div class="inner">
+            <div class="inner animate"data-animate="motion">
             <div class="textBox">
                 <p class="maintxt en">Experience</p>
                 <p class="txt">공감을 중심으로 한 사회복지 현장 경험은 사용자 중심의 문제 해결과 <br>경험 설계를 고민하는 디자이너로 성장하는 토대가 되었습니다.</p>
@@ -378,7 +378,7 @@
 
         <section class="story">
             <div class="inner animate"data-animate="motion">
-                  <div class="imgBox">
+            <div class="imgBox">
             <img src="img/flower.png" alt="">
             </div>
                 <div class="topBox">
@@ -406,12 +406,31 @@ and responsibility.</p>
         </section>
 
         <section class="philosophy">
+            <div class="inner animate"data-animate="motion">
+                <div class="topBox">
+                    <p class="textBox">
+                        THE KEYWORDS<br>
+                        THAT GUIDE<br>
+                        MY  <span class="en2">DESIGN PHILOSOPHY</span>
+                    </p>
+                </div>
+                <div class="bottomBox">
+                <p class="textBox1">
+                Empahtizing <span class="small">with</span>
+                <span class="en2" data-words='["Needs","Users"]'>Culture</span>
+                </p>
 
+                <p class="textBox2">
+                <span class="en2" data-words='["Natural","Fluid"]'>Natural</span>
+                — Interactions
+                </p>
+
+                <p class="textBox3">
+                Memorable — <span class="en2" data-words='["Messages","Identity","Stories"]'>Messages</span>
+                </p>
+                </div>
+            </div>
         </section>
-
-
-
-
 
         <!-- designIntro -->
         <section class="designIntro">
@@ -427,13 +446,16 @@ and responsibility.</p>
         </section>
 
         <!-- worklist -->
-         <section class="wroklist">
+         <section id="work" class="wroklist">
             <ul class="workTrack">
                 <!-- sm -->
                 <li class="workItem">
                     <div class="left">
                         <div class="imgBox">
                             <img src="img/workList(2).png" alt="">
+                            <video class="thumb-video" muted loop preload="none">
+                            <source src="img/sm.mp4" type="video/mp4">
+    브라우저가 비디오 태그를 지원하지 않습니다.
                         </div>
                     </div>
                 <div class="right">
@@ -500,6 +522,9 @@ and responsibility.</p>
                     <div class="left">
                         <div class="imgBox">
                             <img src="img/workList(3).png" alt="">
+                            <video class="thumb-video" muted loop preload="none">
+                            <source src="img/nuvie.mp4" type="video/mp4">
+    브라우저가 비디오 태그를 지원하지 않습니다.
                         </div>
                     </div>
                     <div class="right">
@@ -533,7 +558,7 @@ and responsibility.</p>
                             <div class="role">
                                 <p class="MiniTitle">기여도</p>
                                 <ul>
-                                      <li>
+                                    <li>
                                     <p class="txt">기획</p>
                                     <div class="bar">
                                         <span class="fill" style="width: 40%;"></span>
@@ -620,6 +645,18 @@ and responsibility.</p>
             </div>
                 </li>
             </ul>
+         </section>
+
+         <section class="teamPNG">
+            <div class="inner animate"data-animate="motion">
+                <p class="textBox" >
+                    <p data-splitting>In the team project </p>
+                    <p data-splitting> I learned the <span class="en">value of</span> </p>
+                    <p data-splitting> <span class="en">collaboration</span>and how </p>
+                    <p data-splitting><span class="en">communication shapes </span></p>
+                    <p data-splitting>better design.</p>
+                </p>
+            </div>
          </section>
 
          <!-- worklist2 -->
@@ -778,7 +815,7 @@ and responsibility.</p>
   </section>
 
          <!-- portfolio process -->
-          <section class="portfolio">
+          <section id="process" class="portfolio">
             <div class="inner">
             <div class="textBox">
                 <p class="title">PORTFOLIO PROCESS</p>
@@ -857,7 +894,43 @@ and responsibility.</p>
             </div>
           </section>
 
-          <footer>
+          <section class="FAQ">
+            <div class="inner animate"data-animate="motion">
+                <div class="topBox">
+                    <div class="title">F&A</div>
+                    <div class="subtitle">채용 검토에 도움이 되도록 핵심 질문과 답을 간결하게 정리했습니다.</div>
+                </div>
+            <ul class="faq-list">
+            <li>
+                <input type="checkbox" id="faq1">
+                <label for="faq1" class="q">왜 UX/UI 디자이너가 되고 싶었나요?</label>
+                <div class="a"> 사회복지사로 일하며 사람들의 감정과 필요를 깊이 이해하는 경험을 했습니다. 이때 얻은 공감 능력이 자연스럽게 UX/UI 디자인으로 이어졌고, 사용자 중심의 문제 해결에 매력을 느끼게 되었습니다.</div>
+            </li>
+            <li>
+                <input type="checkbox" id="faq2">
+                <label for="faq2" class="q">디자인할 때 가장 중요하게 생각하는 가치는 무엇인가요?</label>
+                <div class="a">공감과 명확성입니다. 누구나 쉽게 이해할 수 있고, 편안하게 사용할 수 있는 경험을 만드는 것을 가장 중요하게 생각합니다.</div>
+            </li>
+            <li>
+                <input type="checkbox" id="faq3">
+                <label for="faq3" class="q">본인의 강점은 무엇인가요?</label>
+                <div class="a">타인의 감정을 세심히 파악하고, 끝까지 해내는 책임감입니다.</div>
+            </li>
+            <li>
+                <input type="checkbox" id="faq4">
+                <label for="faq4" class="q"> 프로젝트에서 가장 기억에 남는 순간은 언제인가요?</label>
+                <div class="a">팀원들과 아이디어를 주고받으며 하나의 결과물이 완성될 때입니다. 서로 다른 시각이 합쳐져 더 나은 결과물이 나오는 과정을 즐깁니다.</div>
+            </li>
+            <li>
+                <input type="checkbox" id="faq5">
+                <label for="faq5" class="q">앞으로 어떤 디자이너로 성장하고 싶나요?</label>
+                <div class="a">문제를 단순히 해결하는 데서 그치지 않고, 사용자에게 의미 있는 경험을 만들어 주는 디자이너가 되고 싶습니다. </div>
+            </li>
+            </ul>
+            </div>
+          </section>
+
+          <footer id="contack">
             <div class="inner animate"data-animate="motion">
                 <div class="contents">
                     <div class="top">
@@ -865,10 +938,10 @@ and responsibility.</p>
                         <p class="txt2">Always up for a chat</p>
                     </div>
                     <div class="toTop">
-  <button type="button" class="toTop-btn" aria-label="Back to top">
-    ↑
-  </button>
-</div>
+            <button type="button" class="toTop-btn" aria-label="Back to top">
+                ↑
+            </button>
+                    </div>
                     <div class="bottom">
                         <ul class="email">
                             <li>Email</li>

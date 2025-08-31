@@ -398,6 +398,39 @@ gsap.timeline({
 })();
 
 
+// philosophy
+(() => {
+  const OPTS = {
+     characters: 'AEFHKNPRST',
+    speed: 45
+  };
+
+  const targets = document.querySelectorAll('.philosophy .en2[data-words]');
+  if (!targets.length || !window.baffle) return;
+
+  targets.forEach((el, idx) => {
+    let words = [];
+    try {
+      words = JSON.parse(el.dataset.words || '[]');
+    } catch(e) {}
+    if (!words.length) return;
+
+    const bf = baffle(el, OPTS);
+    let i = 0;
+
+    function cycle() {
+      i = (i + 1) % words.length;
+      bf.start();
+      bf.text(() => words[i]);
+      bf.reveal(800, 100);
+      setTimeout(cycle, 2200);
+    }
+
+    setTimeout(cycle, 600 + idx * 200);
+  });
+})();
+
+
 
 
 
@@ -417,21 +450,14 @@ gsap.timeline({
 
 
 
-
-
-
-
-
-
-
 // design journey
 gsap.timeline({
       scrollTrigger:{
          trigger:'.designIntro',
-         start:'0% 100%',
-         end:'0% 20%',
+          start: 'top 40%',   // 뷰포트 하단 근처 들어와야 시작
+      end: '100% 100%',
          scrub:1,
-         // markers:true
+        //  markers:true
       }
    })
    .fromTo('.designIntro .mainTxt .word:first-child', { x: '-100%' }, { x: '0%', ease: 'none', duration: 5 }, 0)
@@ -454,7 +480,44 @@ gsap.timeline({
       // markers: true
     }
   });
-  
+
+
+// 동영상
+  // 전역 커서 요소를 body에 추가
+  const cursor = document.createElement('div');
+  cursor.classList.add('work-custom-cursor');
+  document.body.appendChild(cursor);
+
+  document.querySelectorAll('.imgBox').forEach(box => {
+    const video = box.querySelector('.thumb-video');
+
+    if (video) {
+      box.addEventListener('mouseenter', () => {
+        video.currentTime = 0;
+        video.play();
+      });
+      box.addEventListener('mouseleave', () => {
+        video.pause();
+      });
+    }
+
+    // 마우스 움직임에 따라 커서 위치 이동
+    box.addEventListener('mousemove', (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+
+      cursor.style.left = `${x}px`;
+      cursor.style.top = `${y}px`;
+      cursor.style.display = 'block';
+    });
+
+    box.addEventListener('mouseleave', () => {
+      cursor.style.display = 'none';
+    });
+  });
+
+
+
 
 
 // worklist 2 
@@ -772,6 +835,10 @@ gsap.timeline({
   window.addEventListener('load', refresh);
   window.addEventListener('resize', refresh);
 })();
+
+
+
+
 
 
 
