@@ -488,7 +488,7 @@ gsap.timeline({
   cursor.classList.add('work-custom-cursor');
   document.body.appendChild(cursor);
 
-  document.querySelectorAll('.imgBox').forEach(box => {
+  document.querySelectorAll('#work .imgBox, .wroklis2 .imgBox').forEach(box => {
     const video = box.querySelector('.thumb-video');
 
     if (video) {
@@ -521,8 +521,8 @@ gsap.timeline({
 
 
 // worklist 2 
+// worklist 2 
 (function attachWroklis2Carousel(){
-  // 실행 타이밍 보장
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
@@ -538,31 +538,23 @@ gsap.timeline({
       return;
     }
 
-    // 전환 시간( CSS transition과 맞춤 )
     const TRANSITION_MS = 650;
-
-    // 임계값(PC/모바일)
     const BASE_THRESHOLD   = 40;
     const MOBILE_THRESHOLD = 24;
     const THRESHOLD = window.matchMedia('(max-width: 1024px)').matches
       ? MOBILE_THRESHOLD
       : BASE_THRESHOLD;
 
-    // 인덱스 상태
     let iCurrent = 0;
     let iPrev    = wrap(iCurrent - 1, slides.length);
     let iNext    = wrap(iCurrent + 1, slides.length);
-
-    // 이동 중 중복 입력 방지
     let lock = false;
 
-    // 드래그 상태
     let startX = 0;
     let dragging = false;
     let moved = false;
     let pid = null;
 
-    // 초기 배치
     applyState();
 
     // ===== 이벤트 바인딩 =====
@@ -570,18 +562,25 @@ gsap.timeline({
     track.addEventListener('pointermove', onPointerMove);
     track.addEventListener('pointerup',    onPointerUp);
     track.addEventListener('pointercancel',onPointerCancel);
-    track.addEventListener('click', guardClickOnDrag, true);
-    window.addEventListener('keydown', onKey); // 테스트용
+
+    track.addEventListener('click', (e) => {
+      const a = e.target.closest('.btnBox a, .imgBox a');
+      if (!a) return;
+
+      if (moved) {   // 드래그 끝난 직후만 막기
+        e.preventDefault();
+      }
+      moved = false;  // 항상 false로 초기화
+    });
+
+    window.addEventListener('keydown', onKey);
 
     // ---------- 유틸 ----------
     function wrap(n, m){ return (n + m) % m; }
 
-    // 항상 좌/중/우 3장만 보이게 + 가운데 카드만 텍스트 표시
     function applyState(){
       const showSet = new Set([iPrev, iCurrent, iNext]);
-
       slides.forEach((li, idx) => {
-        // 공통 리셋
         li.removeAttribute('data-current');
         li.removeAttribute('data-previous');
         li.removeAttribute('data-next');
@@ -589,21 +588,18 @@ gsap.timeline({
         li.style.removeProperty('--rotY');
         li.style.zIndex = '';
 
-        // 텍스트 박스 기본 숨김
         const txtBox  = li.querySelector('.textBox');
         if (txtBox){
           txtBox.style.opacity = '0';
           txtBox.style.pointerEvents = 'none';
         }
 
-        if (showSet.has(idx)) {
-          li.style.display = '';
-        } else {
+        if (!showSet.has(idx)) {
           li.style.display = 'none';
           return;
         }
+        li.style.display = '';
 
-        // 상태 부여 + z-index
         if (idx === iCurrent) {
           li.setAttribute('data-current', '');
           li.style.zIndex = '30';
@@ -621,14 +617,14 @@ gsap.timeline({
       });
     }
 
-    function go(dir){ // 1: next, -1: prev
+    function go(dir){
       if(lock) return;
       lock = true;
       if(dir === 1){
         iPrev = iCurrent;
         iCurrent = iNext;
         iNext = wrap(iCurrent + 1, slides.length);
-      }else{
+      } else {
         iNext = iCurrent;
         iCurrent = iPrev;
         iPrev = wrap(iCurrent - 1, slides.length);
@@ -637,7 +633,6 @@ gsap.timeline({
       setTimeout(()=>{ lock = false; }, TRANSITION_MS);
     }
 
-    // --drag 보조
     function setDrag(px){
       const v = typeof px === 'number' ? `${px}px` : px;
       slides[iCurrent].style.setProperty('--drag', v);
@@ -651,27 +646,50 @@ gsap.timeline({
     }
 
     // ---------- 드래그 핸들러 ----------
-    function onPointerDown(e){
-      e.preventDefault();
-      dragging = true;
-      moved = false;
-      startX = e.clientX;
-      pid = e.pointerId;
-      try { track.setPointerCapture(pid); } catch(_) {}
-      track.classList.add('is-dragging');
-    }
+  function onPointerDown(e) {
+  const btnLink = e.target.closest('.btnBox a');
+  const imgLink = e.target.closest('.imgBox a');
 
-    function onPointerMove(e){
-      if(!dragging) return;
-      e.preventDefault();
-      const dx = e.clientX - startX;
-      if (Math.abs(dx) > 3) moved = true;
+  if (btnLink || imgLink) {
+    // 버튼이나 이미지 링크 클릭 → 드래그 준비 안 함
+    return;
+  }
 
-      setDrag(dx);
+  // 그 외 영역만 드래그
+  e.preventDefault(); // 드래그 시작 시에만 막음
+  dragging = true;
+  moved = false;
+  startX = e.clientX;
+  pid = e.pointerId;
+  try { track.setPointerCapture(pid); } catch (_) {}
+  track.classList.add('is-dragging');
+}
 
-      const rot = Math.max(-18, Math.min(18, -dx / 20));
-      slides[iCurrent].style.setProperty('--rotY', rot + 'deg');
-    }
+function onPointerMove(e) {
+  if (!dragging) return;
+  const dx = e.clientX - startX;
+
+  if (Math.abs(dx) > 3) {
+    moved = true;
+    e.preventDefault(); // 실제로 움직였을 때만 기본 이벤트 막음
+  }
+
+  setDrag(dx);
+  const rot = Math.max(-18, Math.min(18, -dx / 20));
+  slides[iCurrent].style.setProperty('--rotY', rot + 'deg');
+}
+
+track.addEventListener('click', (e) => {
+  const a = e.target.closest('.btnBox a, .imgBox a');
+  if (!a) return;
+
+  if (moved) {
+    // 드래그 끝난 직후라면 링크 막음
+    e.preventDefault();
+  }
+  moved = false; // 항상 초기화
+});
+
 
     function onPointerUp(e){
       if(!dragging) return;
@@ -720,25 +738,27 @@ gsap.timeline({
       }
     }
 
-    // 드래그 후 a 클릭 무효화
-    function guardClickOnDrag(e){
-      if (moved) {
-        const a = e.target.closest('a');
-        if (a) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        moved = false;
-      }
-    }
-
-    // 키보드 테스트
     function onKey(e){
       if(e.key === 'ArrowRight') go(1);
       if(e.key === 'ArrowLeft')  go(-1);
     }
+
+
+// ===== 화살표 버튼 바인딩 =====
+const prevBtn = section.querySelector('.carousel-nav .prev');
+const nextBtn = section.querySelector('.carousel-nav .next');
+
+if (prevBtn && nextBtn) {
+  prevBtn.addEventListener('click', () => {
+    if (!lock) go(-1); // ← 왼쪽(이전)
+  });
+  nextBtn.addEventListener('click', () => {
+    if (!lock) go(1);  // → 오른쪽(다음)
+  });
+}
+
   }
-})();
+})(); // ← IIFE 닫기
 
 
 // 커서

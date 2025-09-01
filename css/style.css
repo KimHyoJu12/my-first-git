@@ -372,14 +372,14 @@ line-height: 1.3;color:#7a7a7a;}
 .designIntro .inner .textBox{text-align: center;}
 .designIntro .inner .textBox .mainTxt{font-size:clamp(80px,5vw,120px); line-height: 1; margin-bottom: 15px; font-weight: 500;}
 .designIntro .inner .textBox .mainTxt .word{display: block;}
-.designIntro .inner .textBox .subTxt span{font-size: clamp(15px,5vw,25px); color: #9079FF; }
+.designIntro .inner .textBox .subTxt span{font-size: clamp(15px,5vw,25px); color: #9079FF;}
 
 /* wroklist */
 .wroklist{display: flex; width: 100vw; height: 100vh; overflow: hidden;}
 .workTrack {display: flex; flex-direction: row; width: calc(100vw * 3);}
 .workItem {display: flex; width: 100vw;  flex-shrink: 0;}
 .wroklist .workTrack .workItem .left{height: 100vh; width: 100%;}
-.wroklist .workTrack .workItem .left .imgBox{height: 100vh; width: 100%; position: relative; /* ✅ 추가 */
+.wroklist .workTrack .workItem .left .imgBox{height: 100vh; width: 100%; position: relative;
   overflow: hidden;   cursor: none;}
 .wroklist .workTrack .workItem .left .imgBox img{width: 100%; height: 100%; object-fit: cover; display: block;}
 /* 동영상 */
@@ -488,7 +488,7 @@ opacity: 0; font-weight: bold; transition: opacity 0.5s ease, right 0.5s ease;}
 .wroklis2 .inner .bottomBox .conBox .item .imgBox{width:100%; direction: ltr;  transition: transform 0.2s linear;transform-style: preserve-3d;  will-change: transform; height:100%; overflow:hidden;}
 .wroklis2 .inner .bottomBox .conBox .item .imgBox img{width:100%;  height:100%; object-fit:cover; transform: scale(1);}
 .wroklis2 .bottomBox{display: flex; justify-content: center; 
-  align-items: center;}
+  align-items: center; position: relative;}
 .wroklis2 .bottomBox .conBox{ display: flex;justify-content: center;
 align-items: center;width: 100%;--slide-width: clamp(300px, 44vw, 800px);--slide-aspect: 16/9; height: calc(var(--slide-width) / (var(--slide-aspect))); position: relative; touch-action: pan-y;
 cursor: grab;}
@@ -539,29 +539,53 @@ z-index: 10;}
 
 .wroklis2 .bottomBox .conBox .textBox { transition: opacity .35s ease, transform .35s ease; text-align: center; margin-top: 50px; display: flex; flex-direction: column; align-items: flex-start;}
 .wroklis2 .bottomBox .conBox .textBox .buttonBox{display: flex;justify-content: space-between;align-items: center; width: 100%; }
-.wroklis2 .bottomBox .conBox .textBox .btn{display: inline-block; padding: 10px 20px; background:transparent ; color: #ffffff; text-decoration: none; border-radius: 30px; font-size: 18px;  position: relative; border: 1px solid #9079FF; transition: all 0.3s;} 
+.wroklis2 .bottomBox .conBox .textBox .btn{display: inline-block; padding: 10px 20px; background:transparent ; color: #ffffff; text-decoration: none; border-radius: 30px; font-size: 18px;  position: relative; border: 2px solid #9079FF; transition: all 0.3s;} 
 .wroklis2 .bottomBox .conBox .textBox .btn:hover{background:#9079FF; color: #000;}
 .wroklis2 .bottomBox .conBox .textBox .maintxt{font-size: 48px;} 
 .wroklis2 .bottomBox .conBox .textBox .maintxt span{color: #9079FF;} 
 
-/* 이미지 위 원형 */
-.wroklis2 .bottomBox .conBox .item .imgBox .hover-cta{
+
+/* 화살표 */
+.wroklis2 .carousel-nav {
   position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%) scale(.9);
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  display: grid; place-items: center;
-  font-family: "Libre Caslon Text", serif; /* 네 폰트계열 맞춤 */
-  font-weight: 700; line-height: 1.1; text-align: center;
-  background: rgba(175,159,255,.95); /* 보라 */
-  color: #000;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
-  opacity: 0;
-  transition: opacity .35s ease, transform .35s ease, box-shadow .35s ease;
-  text-decoration: none;
-  pointer-events: none; /* 드래그/스와이프 방해 X */
+  top: 30%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none; /* 버튼 외 영역 클릭 막기 */
+  z-index: 50;
 }
+
+.wroklis2 .carousel-nav button {
+  pointer-events: auto; /* 버튼만 클릭 가능 */
+  background: rgba(0,0,0,0.5);
+  border: none;
+ width: 80px;       /* 고정 width */
+  height: 80px;      /* 고정 height */
+    display: flex;      /* 아이콘 중앙 정렬 */
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.wroklis2 .carousel-nav button:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.wroklis2 .carousel-nav img {
+  width: 20px; /* 원하는 크기로 */
+  height: auto;
+  display: block;
+}
+
+
+
+
+
+
 
 /* 중앙 카드에서 이미지에 마우스 올리면만 노출 */
 .wroklis2 .bottomBox .conBox .item[data-current] .imgBox:hover .hover-cta{
@@ -575,6 +599,9 @@ z-index: 10;}
 /* 좌/우 카드에는 절대 안 보이게 */
 .wroklis2 .bottomBox .conBox .item:not([data-current]) .hover-cta{display: none;}
 
+/* btn */
+.wroklis2 .bottomBox .conBox .textBox .btnBox a {margin-right: 8px;}
+.btnBox a:last-child {margin-right: 0;}
 
 /* marque */
 .marque{height: 120vh; margin-top: auto; display: flex; justify-content: center; align-items: center; flex-direction: column; }
@@ -742,7 +769,7 @@ flex-direction: column;}
   justify-content: center;  /* 세로 가운데 */
   align-items: flex-start;  /* 왼쪽 정렬 */ padding: 0;}
 .FAQ .inner .topBox {margin-bottom: 50px;  flex-shrink: 0; }
-.FAQ .inner .topBox .title {font-size: 2vw; margin-bottom: 15px;}
+.FAQ .inner .topBox .title {font-size: 2vw; margin-bottom: 15px; font-weight: 500;}
 .FAQ .inner .topBox .subtitle{font-size: 20px;} 
 
 .faq-list input[type="checkbox"] {display: none;}

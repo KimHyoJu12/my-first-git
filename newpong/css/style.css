@@ -1,0 +1,781 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nanum+Gothic:wght@400;700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/* reset */
+* {margin: 0;padding: 0; box-sizing: border-box;}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, tbody, tfoot, thead, tr, th, td{margin:0;padding:0;}
+h1, h2, h3, h4, h5, h6 {font-weight: 700; font-size: inherit;}
+a {color: inherit; text-decoration: inherit;}
+img {vertical-align: middle;}
+a img {border: none;}
+li {list-style: none;}
+address, em, i {font-style: normal;}
+a:focus {outline: none}
+button:focus {outline: none}
+
+/* 레이아웃 */
+body{font-family:'Cormorant',sans-serif; font-size: 15px; background:#e4e4e4; overflow-x: hidden;}
+.wrap{width: 100%; position: relative; overflow: visible;}
+
+header{font-family: "Cormorant Garamond", serif; width: 100vw; background: none; position: fixed; z-index: 100;transition: top 2s ease;}
+header.hide {top: -110px;}
+header.hide-opacity {visibility: hidden;pointer-events: none;transition: visibility 0s, opacity 0.4s ease;}
+header.hide-opacity .gbnbtn {visibility: visible;pointer-events: auto;
+position: absolute; /* header 안 기준 */top: 50%; right: -20px;transform: translateY(-50%);z-index: 9999;}
+header.hide-opacity .right{visibility: hidden;}
+/* 메뉴 열었을 때만 햄버거 강제로 보이기 */
+.gbnbtn.menu-open {opacity: 1 !important;pointer-events: auto;}
+
+.innerheader{display: flex; justify-content: space-between; align-items: center; padding: 60px 90px; position: relative; color: #000; width: 95%; margin: 0 auto;}
+.left{display: flex; align-items: center; gap: 40px;}
+.innerheader .tnb{display:flex; gap: 12px; font-size: 15px;}
+.innerheader .tnb li:nth-child(1){border-bottom: 0.5px solid #000; padding-bottom: 3px;}
+.innerheader .tnb li:nth-child(2){color: #666;}
+/* 호버 */
+.innerheader .tnb .color{position: relative;}
+.innerheader .tnb .color::after{content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 1px; background: #000; transform-origin: right; transform: scaleX(0); transition: transform 0.3s ease;}
+.innerheader .tnb .color:hover{color:#000;}
+.innerheader .tnb .color:hover::after{transform-origin: left; transform: scaleX(1);}
+
+/* gnb */
+.right{display: flex; align-items: center; gap: 25px;}
+.innerheader  .right .list{display: flex; gap: 40px; justify-content: space-between; font-size: 20px; font-family: "Cormorant Garamond", serif; margin-right: 50px; font-weight:900; }
+
+/* 네비 하위 메뉴 */
+.innerheader .right .list > li{position: relative;}
+.innerheader .right .list > li >a{display: block; width: 100%; height: 100%; transition: all 0.4s; font-size: 20px;}
+.list ul.inner{position: absolute; top: 45px; left: 50%; transform: translateX(-50%); opacity: 0; background: #2c2c2c; color: #fff; width: 180px; line-height: 1; overflow: hidden; height: 0; padding: 0; transition: all 0.6s;}
+.list ul.inner li{opacity: 0;
+  transition: all 0.5s ease;}
+.list ul.inner.on{ line-height: 40px; opacity: 1; height: auto; padding: 10px 5px;}
+.list ul.inner li a{display: block; text-align: center;}
+.list ul.inner a span{ font-size: 14px; font-family: 'Pretendard', sans-serif; font-weight: normal; white-space: nowrap; padding: 5px 0;}
+
+nav {display: flex;align-items: center;justify-content: space-between; position: relative;}
+nav .gbnbtn{display: flex; flex-direction: column; justify-content: center; gap: 10px; width: 45px; height: 30px; cursor: pointer; position: absolute; top: 50%; right: -20px; transform: translateY(-50%); z-index: 101; opacity: 1;}
+nav .gbnbtn span{display: block; height: 1px; background-color: black;border-radius: 1px; transition: all 0.3s; transform-origin: center; width: 105%;}
+
+/* active - 햄버거 -> X 변형 */
+.gbnbtn.active span{background: #fff;}
+.gbnbtn.active span.a {transform: rotate(45deg) translatey(7px);}
+.gbnbtn.active span.b {transform: rotate(-45deg) translateY(-7px);}
+
+.mallbtn{position: absolute; top: -40px; right: -25px; background: #000;color: #fff; padding: 5px 14px;border-radius: 30px; font-family: "Cormorant Garamond", serif; transition: 0.3s; }
+.mallbtn .mall-txt{ font-size: 13px;}
+.mallbtn .lnr{margin-right: 5px;}
+
+
+
+
+/* 메뉴오픈 */
+.menuopen .menuWrap{width: 100%; background:rgba(0, 0, 0, 0.8); height: 100vh; position: fixed; top:0; right: 0; z-index:100; opacity: 0;  transform: translateY(-100%);  transition: transform 0.6s ease, opacity 0.6s ease; backdrop-filter: blur(10px);}
+.menuopen .menuWrap .tit{color:#fff; display: flex; justify-content: space-between; width: 85%; margin: 0 auto; position: absolute; top: 40%; left: 7%;}
+.menuopen .menuWrap .tit .txt{font-size:28px; margin-bottom: 65px; font-family: "Cormorant Garamond", serif;}
+.menuopen .menuWrap .tit .inner{font-size: 16px; line-height: 2.5; font-family: 'Pretendard', sans-serif; transition: all 0.4s;}
+.menuopen .menuWrap .tit > li{position: relative;}
+.menuopen .menuWrap.on {opacity: 1; transform: translateY(0); transition: transform 0.6s ease, opacity 0.6s ease;}
+/* 닫을 때 (서서히 사라지기) */
+.menuopen .menuWrap.fadeout {transform: translateY(0);
+opacity: 0; /* ✨ 부드럽게 사라짐 */ pointer-events: none;}
+
+/* 메뉴탭 호버 circle */
+.menuopen .menuWrap .tit > li::before{content: ''; width: 12px; height: 12px; border-radius: 50%; background: #fff; position: absolute; top: -25px; left: 0%; transform:translateY(-30px); /* 초기엔 더 위에 */opacity: 0;transition: all 0.6s ease; /* 부드럽게 */
+pointer-events: none; /* 클릭 방지 */}
+  /* hover 시 흰 동그라미 내려오면서 보이기 */
+.menuopen .menuWrap .tit > li:hover::before {transform: translateY(0);opacity: 1;}
+
+
+/* 기본 서브메뉴 스타일 */
+.menuopen .menuWrap .tit .inner li a span {color: #fff;transition: color 0.3s;}
+
+/* 형제들 흐리게: a:hover시 같은 ul 안의 다른 li들 흐리게 */
+.menuopen .menuWrap .tit .inner:hover li a span {color: #777; /* 전체 흐림 */}
+
+/* 현재 호버 중인 a는 다시 흰색으로 */
+.menuopen .menuWrap .tit .inner li:hover a span {color: #fff;}
+
+
+/*비쥬얼 */
+.visual {position: relative; width: 100%;height: 100vh; overflow: hidden; display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;}
+/* .visual .bg-video {position: absolute; top: 0%; left: 50%; width: 121%; height: 100%; transform: translateX(-50%); object-fit: cover; object-position: center; align-items: center;z-index: 0;} */
+.rolling-text{overflow: hidden; white-space: nowrap;margin-top: 180px; width: 100vw;}
+.marquee{display: flex; white-space: nowrap; animation: scroll-left 20s linear infinite; font-size: 180px; font-weight: 600;color: #000; letter-spacing: 3px; font-family: "Cormorant Garamond", serif; margin-top: 100px;}
+.marquee .marquee-inner{display: inline-block;padding-right: 80px;white-space: nowrap;}
+
+/* 회전텍스트 */
+.visual .conbox .txt{font-weight: 700; margin-top: 0px; font-size: 30px; font-family: 'Pretendard', sans-serif; letter-spacing: -1px;margin-bottom: 150px;}
+.visual .conbox .hover{ width: 30%;display: inline-block; transition: transform 0.3s ease;}
+.visual .conbox .hover img{width: 100%; animation: spin  10s linear infinite; transition: all 0.3s; display: block;}
+.visual .conbox{position: relative;}
+.visual .conbox .xi-long-arrow-down{color: #000; font-size: 32px; position: absolute; left: 0; bottom: 55px; transform: translatex(235px); font-style: normal;font-weight: 400;}
+
+/* 텍스트 호버 */
+.scroll-icon{position: relative; width: 20vh; height: 20vh; display: flex; justify-content:center; align-items: center;}
+.scroll-icon .bg{position:relative; width: 100%; height: 100%; pointer-events: none; transition: transform 0.5s ease-in-out; transform-origin: center center; display: flex; justify-content: center; align-items: center; top: -7vh; left: 15.5vh;}
+.scroll-icon .bg::before {content: ""; display: block; width: 70%;height: 70%;background: url("../img/scroll_txt_bg.png") center/cover no-repeat; animation: spin 10s linear infinite; image-rendering: crisp-edges; display: block;}
+.scroll-icon:hover .bg{transform: scale(1.1);}
+.scroll-icon a { position: absolute; left: -1vh; top: 10vh; transform: translate(-50%, -50%);z-index: 2;}
+.scroll-icon a i {font-size: 2vh;}
+
+@keyframes scroll-left {
+  0% {transform: translateX(0%);}
+  100% {transform: translateX(-50%);}
+}
+
+@keyframes spin{
+  0%{transform:  rotate(0deg) scale(1);}
+  100%{transform:rotate(360deg) scale(1);}
+}
+
+/*  비젼 배경 연장 이미지 */
+.bgimg{position: absolute; top: 30px; left: -30%;width: 100%; ; z-index: 1; overflow: visible;transform-style: preserve-3d;}
+.bgimg img{width: 130%; height: auto; object-fit: cover;display: block;transform: scale(2.7);}
+
+/* 비전 */
+.vision {width: 100%; height: 100vh; display: flex; align-items: center;  position: relative;
+  z-index: 1; margin: 0 0 120px;} 
+.vision .innerbox {position: relative; width: 100%; height: 100%;}
+.vision .txt {position: absolute; top: 45%; left: 50%;transform: translate(-50%, -50%); color: #111; line-height: 1.6;z-index: 2;}
+.vision .txt .tit{font-size: 250px; font-family: "Cormorant Garamond", serif; color: #333; font-weight: 100; letter-spacing: 5px; text-align: center; line-height: 1; margin-bottom: 25px;}
+.vision .txt .con{margin-left: 470px; letter-spacing: -1px; }
+.vision .txt .main {font-size: 30px;font-weight: bold; margin-bottom: 15px; font-family: 'Pretendard', sans-serif; font-weight: 500; color: #333;}
+.vision .txt .sub {font-size: 20px; font-family: 'Pretendard', sans-serif; color: #666; line-height: 1.6; font-weight: 410; width: 130%;}
+
+/* 프로덕트 */
+.product{position: relative; z-index: 2; padding-bottom: 350px; margin-top: 30vh;}
+.product .inner{margin: 0 auto; width: 80%; padding: 30px; position: relative;}
+.product .inner .contents{display: flex; justify-content: space-between; align-items: flex-start;}
+.product .inner .left{ width: 25%; position: sticky; top: 200px; align-self: flex-start;}
+.product .inner .left .txt{position: relative;}
+.product .inner .left .txt h2{font-size: 120px; font-family: "Cormorant Garamond", serif; font-weight: 300;color: #333;  width: 160%;}
+.product .inner .left .txt p{font-size: 30px; color: #333; margin-bottom: 65px; font-family: 'Pretendard', sans-serif; font-weight: 500; width: 130%;}
+.product .inner .left .txt span{font-size: 20px;}
+.product .inner .right{width: 60%;}
+.product .inner .right ul {width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; }
+.product .inner .right ul li{width:46.5%; background:#ededed;border-radius: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);  box-sizing: border-box; display: flex; flex-direction: column; align-items:flex-start; margin-top: 70px; transition: transform 0.2s ease-out; will-change: transform; overflow: hidden;}
+.product .inner .right ul li:nth-child(1) img{ max-height: 500px;margin-top: 150px;}
+.product .inner .right ul li:nth-child(1) .con .tit{margin-top: 25px;}
+.product .inner .right ul li:nth-child(2) img{ max-height: 400px;margin-top: 100px;}
+.product .inner .right ul li:nth-child(2) .con .tit{margin-top: 25px;}
+.product .inner .right ul li:nth-child(3) img{ max-height: 400px; margin-top: 30px; margin-bottom: 20px; align-self: center; }
+.product .inner .right ul li:nth-child(4) img{ max-height: 400px;margin-top: 100px;}
+.product .inner .right ul li:nth-child(4) .con{margin-bottom: 70px;}
+.product .inner .right ul li a{display: flex; flex-direction: column; height: 100%; width: 100%;}
+.product .inner .right ul li a .con{ width: 100%; text-align: left; padding: 0px 40px; box-sizing: border-box; margin-top: 50px;}
+
+.product .inner .right ul li p.tit {font-size: 35px;font-weight: bold;margin-bottom: 20px; font-family: "Cormorant Garamond", serif; color: #333;}
+.product .inner .right ul li p.txt {font-size: 18px;color: #666;line-height: 1.6; font-family: 'Pretendard', sans-serif;  color: #999; font-weight: 400;}
+
+/* 화살표애니 */
+.product .inner .arrow-line{display: inline-block; position: relative; width: 60px;height: 1px;}
+.product .inner .arrow-line::before{content: ''; position: absolute; top: 50%; left: 0; width: 120%;height: 2px; background: #525252; }
+.product .inner .arrow-line i{position: absolute; right:-20px; top: -8px;color: #525252; font-size: 18px;}
+.arrow-line:hover i{transform: translatex(10px);transition: transform 0.3s ease;}
+.arrow-line:hover::before {transform: translateX(10px);transition: transform 0.3s ease;}
+
+/* 글로벌 */
+.global{padding: 150px 0 130px; position: relative; overflow: hidden;  min-height: 120vh;}
+.global .inner{width: 100%; margin: 0 auto; position: absolute; top: 5%; left: 19%;}
+.global .inner .mapLogo{background: #fff; width: 165px; height: 65px; display:block; align-items: center; display: flex; justify-content: space-between;border-radius: 40px; position: absolute; left: 170px; top: 440px;z-index: 10;}
+.global .inner .maplogo{position: relative;}
+/* 글로벌이미지 */
+.global .bg-img {position: absolute;left: -2vh; top: 5vh;width: 120%; height: 120vh;overflow: hidden;
+  transform: translateX(-8%);transform-origin: left center;overflow: hidden;}
+ .global .bg-img img {width: 100%;height: auto;object-fit: cover;object-position: left center;display: block;margin: 0;}
+.global .inner .maplogo .wave{position: absolute; left: 30vh;top: 55vh;transform: translate(-50%, -50%);width: 30px; height: 30px;pointer-events: none;z-index: 1;}
+.global .inner .maplogo .wave span {position: absolute;left: 0;top: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.06);border-radius: 50%;opacity: 0; animation: wave-circle 3s cubic-bezier(1, 2, 0.66, 3) infinite;}
+.global .inner .maplogo .wave .a {animation-delay: 0s;}
+.global .inner .maplogo .wave .b {animation-delay: 0.7s;}
+.global .inner .maplogo .wave .c {animation-delay: 1.4s;}
+
+@keyframes wave-circle {
+  0% {transform: scale(5);opacity: 0;}
+  50% {opacity: 1;}
+  100% {transform: scale(10);opacity: 0;}}
+
+.global .inner .cuntry{ position: absolute;top: 0;left: 0;width: 100%;height: 100%;
+pointer-events: none; z-index: 5; pointer-events: none; transform: none !important;}
+.global .inner .cuntry p{position: absolute; background: #fff;padding: 0 15px; height: 35px;
+line-height: 35px; border-radius: 40px;font-family: "Cormorant Garamond", serif; font-weight: 900;font-size: 19px; display: flex;align-items: center;justify-content: center; white-space: nowrap;}
+.global .inner .cuntry .Africa{position: absolute;top: 65vh; left: -17vw;}
+.global .inner .cuntry .Asia{position: absolute; top: 45vh;left:-4vw; width: 5.5%;}
+.global .inner .cuntry .Europe{position: absolute;  top: 28vh;left: 1vw; width: 5.5%;}
+.global .inner .cuntry .LatinAmerica{position: absolute; top: 70vh; left: 69vw;}
+.global .inner .mapLogo img{ margin-left: 24px; width: 70%;}
+.global .inner .maplogo .dot{width: 7px; height: 7px; background: #000; border-radius: 50%; position: absolute; left: 14.8%; top: 536px; transform: translate(-50%, -50%);}
+.global .inner .conbox{position: absolute; top: 0;}
+.global .inner .conbox h2{text-align: center; font-size: 185px; margin-bottom: 30px; font-family: "Cormorant Garamond", serif; width: 100%; font-weight: 500; position: relative;
+  left: 50%; top: 50%; transform: translateX(-50%); color: #333;}
+.global .inner .bottom .count{ width: 20%; display: flex; position: relative;}
+.global .inner .bottom{position: absolute;  top: 75%; left: 50%;}
+.global .inner .bottom .count .contents{display: flex; flex-direction: column; justify-content: center;}
+.global .inner .bottom .count .contents::before{content:'+';position: absolute; right:-30vh; top: 14vh; font-size: 90px; color: #000; display: block; font-family: inherit; font-weight: 900;}
+.global .inner .conbox .bottom .count .contents{font-family: "Cormorant Garamond", serif; font-weight: 700;}
+.global .inner .conbox .bottom .count .contents span{font-family: "Cormorant Garamond", serif; font-weight: 700; font-size: 350px; display: block; position: absolute; top: 0;}
+.global .inner .bottom .count .contents em{font-size: 38px; top: 38vh; left: 17vh; position: absolute;}
+.global .inner .bottom .txtbox{width: 100%; margin-top: -20px;}
+.global .inner .bottom .txtbox .tit{font-family: 'Pretendard', sans-serif; font-size: 32px; margin-bottom: 20px; font-weight: 500;}
+.global .inner .bottom .txtbox .txt{font-family: 'Pretendard', sans-serif;font-weight: 450; line-height: 1.6; margin-bottom: 60px; color: #666; font-size: 20px;}
+.global .inner .conbox .contents span{color: #333; font-weight: bold;}
+.global .inner .conbox .contents em{font-size: 30px; font-family: "Cormorant Garamond", serif; font-weight: 600;}
+
+
+/* 숫자 */
+.count{display: flex; align-items: flex-end; gap: 10px; width: auto;}
+.countbox{width: 150px; height: 500px; display: flex;align-items: center;
+justify-content: center;}
+.trackwrap{height: 350px; position: relative; display: flex;align-items: center;justify-content: center; width: 100%; overflow: hidden;}
+.track{display: flex; flex-direction: column; transition: none; }
+.track span{height: 350px;line-height: 350px; font-size: 350px; font-family: "Cormorant Garamond", serif; font-weight: bold; align-items: center; display: flex; justify-content: center; color: #333;}
+
+/* 카운트 애니 */
+@keyframes count-up {
+  0% { transform: translateY(0);}
+  100% {transform: translateY(-1800px);} 
+}
+
+/* 화살표 */
+.global .inner .arrow-line{display: inline-block; position: relative; width: 60px;height: 1px;}
+.global .inner .arrow-line::before{content: ''; position: absolute; top: 50%; left: 0; width: 120%;height: 2px; background: #525252;}
+.global .inner .arrow-line i{position: absolute; right:-20px; top: -8px; color: #525252; font-size: 18px;}
+.arrow-line a:hover {transform: translatex(10px);transition: transform 0.3s ease;}
+.arrow-line a:hover::before {transform: translateX(10px);transition: transform 0.3s ease;}
+
+
+
+/* 커스터머 */
+.customer{position: relative;}
+.customer .mainbg{position: relative; width: 100%; height: 100vh; transform-style: preserve-3d; overflow: hidden;z-index: 1;}
+.customer .mainbg span{position: absolute; top:20vh; left: -5vw; right: -5vw; display: block;}
+.customer .mainbg span img{width: 100%;transform: scale(1.1); object-fit: cover;}
+.customer .inner{width: 60%; margin: 0 auto; text-align: center; position: absolute; left: 50%; top: 30vh; z-index: 2; transform: translateX(-50%);}
+.customer .inner .conbox h2{font-family: "Cormorant Garamond", serif; font-size: 210px; font-weight:350; color: #333; margin-bottom: 15px;}
+.customer .inner .conbox .main{font-family: 'Pretendard', sans-serif;font-weight: 500; line-height: 1.6; margin-bottom: 50px; color: #666; font-size: 20px; width: 100%; letter-spacing: -0.8px;}
+.customer .inner .conbox a{width: 100%; font-family: 'Pretendard', sans-serif;font-weight: 600; font-size: 22px; color: #333; position: relative; margin-bottom: 10px;}
+.customer .inner .conbox a::before{position: absolute; bottom: -50%; left: -15%; width: 30%; height: 2px; background-color: #333; content: '';opacity: 1; transition: opacity 0.2s;}
+.customer .inner .conbox a::after{position: absolute; bottom: -50%; left: 0%; transform: translateX(-50%); width: 0; height: 2px; background-color: #333; content: ''; transition: all 0.6s;}
+.customer .inner .conbox a:hover:before{opacity: 0;}
+.customer .inner .conbox a:hover::after{width: 30%;}
+
+/* 커스텀 커서 */
+.custom-cursor {position: fixed; pointer-events: none; z-index: 1001;width: 180px; height: 180px;transform: translate(-50%, -50%); opacity: 0;transition: opacity 0.3s ease; background: rgba(110, 10, 10, 0.9); border-radius: 50%;z-index: 10001;}
+.custom-cursor img {width: 100% ;height: 100%; animation: rotateLoop 5s linear infinite; opacity: 1; mix-blend-mode: screen;}
+.custom-cursor-circle{width: 180px; height: 180px; position:fixed; top: 0;
+  left: 0;transform: translate(-50%, -50%);background: #5cb9f5;border-radius: 50%;
+  opacity: 0; pointer-events: none; mix-blend-mode: difference; z-index: 9998;}
+
+
+@keyframes rotateLoop {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/* 푸터 */
+footer{background: #efefef;}
+footer .inner{ margin: 0 auto; width: 85%; padding: 80px; overflow: hidden;}
+footer .inner .top{display: flex; justify-content: space-between; padding-top: 30px;}
+footer .inner .top .left{display: flex; flex-direction: column; gap: 10px; align-items: flex-start; width: 150px; height: 200px;}
+footer .inner .top .left .img{margin-bottom: 60px;}
+footer .inner .top .left .txt1{font-family: 'Pretendard', sans-serif; margin-bottom: 10px; font-size: 14px; color: #333; font-weight: 500;}
+footer .inner .top .left .txt2{font-family: 'Pretendard', sans-serif;font-size: 14px;font-weight: 500; color: rgba(72, 72, 84, 0.3); display: inline-block; transition: all 0.6s;}
+footer .inner .top .mainaddress{width: 25%;}
+footer .inner .top .mainaddress li{margin-bottom: 40px; font-family: 'Pretendard', sans-serif; font-size: 14px;font-weight: 500; margin-left: -40px; color: #888;}
+footer .inner .top .mainaddress li .place{margin-bottom: 10px; color: #333;}
+footer .inner .top .right{width: 50%;}
+footer .inner .top .right ul{font-family: 'Pretendard', sans-serif; display: flex; flex-wrap: wrap; font-size: 18px; width: 100%;}
+footer .inner .top .right li{width: 20%; order: 0;}
+footer .inner .top .right ul li p{transition: all 0.6s;}
+footer .inner .top .right li:nth-child(1){margin-bottom: 5px;}
+footer .inner .top .right li h3{margin-bottom: 10px; font-weight: 500;color: #333; font-size: 18px;}
+footer .inner .top .right li a{line-height: 30px; font-size: 16px;color: #888;}
+footer .bottom{display: flex; margin-top: 30px;}
+footer .bottom ul{display: flex; gap: 15px;}
+footer .bottom ul li a{font-size: 20px; gap: 20px; color: #666; transition: all 0.6s; }
+footer .bottom .footer-copyright{ margin-left: 120px; font-family: 'Pretendard', sans-serif; font-size: 14px; color: #b2b2b2;}
+
+/* 호버 */
+footer .inner .top .left .txt2:hover{color: #000; transform: scale(1.01);}
+footer .inner .top .right ul li p:hover{color: #000; transform: scale(1.02);}
+footer .bottom ul li a:hover{color: #000; transform: scale(1.01);}
+
+/* footer 넓이 보정
+footer .inner {width: 100%;max-width: 1500px;} */
+
+
+/* 탑버튼 */
+.button{position: fixed; width: 46px; height: 46px; background: #fff; border-radius: 50%; border: 1px solid#eee; box-sizing: border-box; display: block; right: 12px; bottom: 15px; text-align: center; color: #333; z-index: 999; line-height: 46px; opacity: 0; transition: all 0.4s ease; transform: translateY(20px);}
+.button.show {opacity: 1;visibility: visible; transform: translateY(0);}
+.topbtn i {transition: transform 0.3s ease;}
+.topbtn:hover i {transform: translateY(-3px);}
+
+
+/* 애니메이션 */
+@keyframes slideup1{
+  0%{transform: translateY(0px); opacity: 0;}
+  30%{transform: translateY(-100px); opacity: 0;}
+ 
+}
+.innerheader{animation:slideup1; animation-duration:2s;}
+
+
+@keyframes fadein {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+/* 비쥬얼 */
+.visual .conbox .txt{opacity: 0; animation:fadein 1.4s ease-in-out 1.4s both;}
+.visual .conbox .scroll-icon{opacity: 0; animation:fadein 1.6s ease-in-out 1.4s both;}
+
+/* 프로덕트 */
+.product .inner.motion .right ul li:nth-child(1){ animation:fadein 1.4s}
+.product .inner.motion .right ul li:nth-child(2){ animation:fadein 1s}
+.product .inner.motion .right ul li:nth-child(3){ animation:fadein 1.4s}
+.product .inner.motion .right ul li:nth-child(4){ animation:fadein 1s}
+
+
+@keyframes slideup2{
+  0%{transform: translateY(100px); opacity: 0;}
+  30%{transform: translateY(100px); opacity: 0;}
+  100% { transform: translateY(0); opacity: 1; }
+ 
+}
+.vision .innerbox.motion .txt .main{animation:slideup2; animation-duration:1.2s;}
+.vision .innerbox.motion .txt .sub{animation:slideup2; animation-duration:1.4s;}
+
+.product .inner.motion .txt p{animation:slideup2; animation-duration:1.4s;}
+.product .inner.motion .arrow-line{animation:slideup2; animation-duration:1.4s;}
+
+.global.motion .inner .bottom .count{animation:slideup2; animation-duration:1.2s;}
+.global.motion .inner .bottom .txtbox .tit{animation:slideup2; animation-duration:1.4s;}
+.global.motion .inner .bottom .txtbox .txt{animation:slideup2; animation-duration:1.6s;}
+.global.motion .inner .bottom .txtbox span{animation:slideup2; animation-duration:1.8s;}
+
+.customer .inner.motion .conbox .main{animation:slideup2; animation-duration:1.2s;}
+.customer .inner.motion .conbox p{animation:slideup2; animation-duration:1.4s;}
+.customer .inner.motion .conbox a::before{animation:slideup2; animation-duration:1.6s}
+
+.menuopen .menuWrap.motion .tit > li:nth-child(1){animation:slideup2; animation-duration:1s;}
+.menuopen .menuWrap.motion .tit > li:nth-child(2){animation:slideup2; animation-duration:1.2s;}
+.menuopen .menuWrap.motion .tit > li:nth-child(3){animation:slideup2; animation-duration:1.4s;}
+.menuopen .menuWrap.motion .tit > li:nth-child(4){animation:slideup2; animation-duration:1.6s;}
+.menuopen .menuWrap.motion .tit > li:nth-child(5){animation:slideup2; animation-duration:1.8s;}
+.menuopen .menuWrap.motion .tit > li:nth-child(6){animation:slideup2; animation-duration:2s;}
+
+
+@keyframes slide-up  {
+  0% {transform: translateY(100px); opacity: 0;}
+  30% {transform: translateY(100px);opacity: 0;}   
+}
+/* 스플릿팅 */
+.motion .char{display: inline-block;
+  animation: slide-up 1s cubic-bezier(.10,0,.10,0.1) both;
+  animation-delay: calc(40ms * var(--char-index));
+}
+
+
+/* 무한텍스트 애니 */
+@keyframes rolling-fadein {
+  0% {transform: translateY(100px); opacity: 0;}
+  30% {transform: translateY(100px);opacity: 0;}
+}
+.rolling-text .char{
+  display: inline-block;
+  animation: rolling-fadein 1s cubic-bezier(.10,0,.10,0.1) both;
+  animation-delay: calc(40ms * var(--char-index));
+}
+
+/* 프로덕트 글씨 깨짐 수정 */
+.product h2 .char{
+  font-size: 120px !important;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 300;
+}
+
+
+
+/* 반응형 */
+/* 1669px 1641px 구간 */
+@media screen and (max-width:1669px){
+.innerheader{width: 100%; margin: 0 auto;}
+.innerheader .left{margin-left: -7vh;}
+.innerheader nav{margin-right: -3vh;}
+.vision{width: 100%; margin: 0 auto;}
+.vision .txt .con{ margin-left: 402px;}
+
+.product{width: 100%; margin: 0 auto;}
+.product .contents .left{margin-left: -16vh;}
+.product .contents .right{margin-right: -16vh; width: 75%;}
+.global .conbox h2.tit{left: 44%;}
+.global .inner .mapLogo img{margin-left: 20px;}
+.global .inner .mapLogo{top: 39vh; left: 166px; width: 136px; height: 52px;}
+.global .inner .cuntry .Africa{top: 52vh; left: -18vw;}
+.global .inner .cuntry .Asia{ top: 39vh; width: 100px;}
+.global .inner .cuntry .Europe{top: 21vh; width: 110px;}
+.global .inner .cuntry .LatinAmerica{ top: 58vh; left: 66vw;}
+.global .inner .maplogo .dot{width: 6px; height: 6px;  left: 25.5vh; top: 49vh;}
+.global .inner .maplogo .wave{left: 24.2vh;top: 47vh;}
+.global .inner .bottom{left: 42%;}
+footer .inner{width: 175vh; margin: 0 auto;}
+}
+
+/* 1640px 1601px 구간 */
+@media screen and (max-width:1640px){
+  .global .inner .maplogo .dot{width: 6px; height: 6px;  left: 25vh; top: 48vh;}
+}
+
+
+/* 1600px 1659px 구간 */
+@media screen and (max-width:1600px){
+  .vision .txt .sub{width: 150%;}
+  .global .inner .mapLogo{top: 38vh; left: 149px; width: 136px; height: 52px;}
+  .global .inner .maplogo .dot{width: 6px; height: 6px;  left: 24.2vh; top: 46.8vh;}
+}
+
+/* 1589px 1501px 구간 */
+@media screen and (max-width:1589px){
+.global .inner .mapLogo{top: 38vh; left: 145px;}
+.global .inner .cuntry .LatinAmerica{ top: 58vh; left: 67vw;}
+.global .inner .maplogo .dot{left: 24vh; top: 46.8vh;}
+.global .inner .maplogo .wave{left: 24vh;top: 47vh;}
+}
+
+/* 1500px 1401px 구간 */
+@media screen and (max-width:1500px){
+  .innerheader .right .list > li >a{font-size: 19px;}
+  .vision .txt .sub{width: 200%;}
+  .global .inner .mapLogo{top: 35vh;}
+  .global .inner .cuntry .LatinAmerica{top: 55vh;}
+  .global .inner .maplogo .dot{left: 22.5vh; top: 44vh;}
+  .global .inner .maplogo .wave{left: 22.5vh;top: 45vh;}
+  
+  }
+
+  /* 1400px 1280px 구간 */
+@media screen and (max-width:1400px){
+  .innerheader .right .list > li >a{font-size: 18px;}
+  .mallbtn{font-size: 12px; padding: 4px 9px;}
+  .marquee{font-size: 150px;}
+  .visual .conbox .txt{font-weight: 600; font-size: 27px;}
+  .scroll-icon .bg{width: 95%;height: 95%;}
+  .visual .conbox .xi-long-arrow-down{font-size: 30px;}
+  .vision .txt .tit{font-size: 220px;}
+  .vision .txt .main{font-size: 25px;}
+  .vision .txt .sub{width: 200%; font-size: 18px;}
+  .vision .txt .con{margin-left: 330px;}
+  .product{width: 100%; margin: 0 auto;}
+  .product h2 .char{font-size: 100px !important;}
+  .product .contents .left{margin-left: -14vh;}
+  .product .inner .left .txt p{font-size: 25px;}
+  .product .contents .right{margin-right: -14vh; width: 80%;}
+  .product .inner .right ul li p.tit{font-size: 30px;}
+  .product .inner .right ul li p.txt{font-size: 16px;}
+  .global .conbox h2.tit{left: 42%; font-size: 160px;}
+  .global .inner .mapLogo img{margin-left: 18px;}
+  .global .inner .mapLogo{top: 32vh; left: 130px; width: 120px; height: 48px;}
+  .global .inner .cuntry .Africa{top: 45vh; font-size: 17px; height: 30px;}
+  .global .inner .cuntry .Asia{ top: 31vh;  font-size: 17px; height: 30px; width: 95px;}
+  .global .inner .cuntry .Europe{top: 17vh; width: 100px; font-size: 17px; height: 30px;}
+  .global .inner .cuntry .LatinAmerica{left: 66vw; top: 49vh; font-size: 17px; height: 30px;}
+  .global .inner .maplogo .dot{left: 20vh; top: 39vh; width: 5px; height: 5px;}
+  .global .inner .maplogo .wave{left: 19.5vh;top: 39vh; height: 25px; width: 25px;}
+  .track span{font-size: 330px;}
+  .global .inner .conbox .bottom .count .contents span{font-size: 335px;}
+  .global .inner .bottom .count .contents em{top: 38vh;}
+  .global .inner .bottom .txtbox .tit{font-size: 26px;}
+  .global .inner .bottom .txtbox .txt{font-size: 18px;}
+  .customer .inner .conbox h2{font-size: 185px;}
+  .customer .inner .conbox .main{font-size: 18px;}
+  .customer .inner .conbox a{font-size: 18px;}
+  footer .inner{width: 145vh;padding: 75px 15px;}
+  footer .inner .top .left a img{width: 95%;}
+  footer .inner .top .mainaddress li{font-size: 12px;}
+  footer .inner .top .left .txt1, footer .inner .top .left .txt2{font-size: 12px;}
+  footer .bottom ul li a{font-size: 18px;}
+  footer .bottom .footer-copyright{font-size: 12px; margin-left: 120px;}
+  footer .bottom{margin-top: -3px;}
+  footer .inner .top .right{width: 60%;}
+  footer .inner .top .right li h3{font-size: 15px;}
+  footer .inner .top .right li p{font-size: 14px;}
+  }
+
+   /* 1279px 1271px 구간 */
+   @media screen and (max-width:1279px){
+    .innerheader .right .list{display: none;}
+    .mallbtn{font-size: 14px; padding: 8px 19px; width: 166px; top: -17px; right: 45px;}
+    .marquee{font-size: 180px;}
+    .visual .conbox .txt{font-weight: 700; font-size: 30px;}
+    .scroll-icon .bg{width: 100%; height:100%;}
+    .vision .txt .tit{font-size: 235px;}
+    .vision .txt .main{font-size: 30px;}
+    .vision .txt .sub{width: 200%; font-size: 20px;}
+    .product h2 .char{font-size: 120px !important;}
+    .product .inner {width: 100%; padding: 20px;}
+    .product .inner .left{width: 95%; position: relative; margin-bottom: 200px; margin: 0 auto;}
+    .product .inner .contents{display: block;padding: 0;margin: 0;}
+    .product .inner .right {width: 100%;  overflow: hidden; margin: 0 auto; margin-top: 200px;}
+    .product .inner .right ul {display: flex !important;  width: 100%; align-items: stretch !important;}
+    .product .inner .right ul li { margin-right: 20px; border-radius: 25px; width: 450px !important;}
+    .product .inner .right ul li:last-child {margin-right: 0 !important;}
+    .slick-slide {float: none !important;display: inline-block !important;}
+    .slick-list {overflow: hidden !important; padding: 0 !important; margin: 0 !important;}
+    .slick-track {display: flex !important; margin-right: 0 !important; align-items: stretch !important;margin-right: 0 !important;}
+    .product .inner .right ul li p.tit{font-size: 35px;}
+    .product .inner .right ul li p.txt{font-size: 18px;}
+    .global .conbox h2.tit{left: 39%;}
+    .global .inner .mapLogo{top: 31vh; left: 111px; width: 100px; height: 40px;}
+    .global .inner .mapLogo img{margin-left: 16px;}
+    .global .inner .maplogo .dot{left: 19vh; top: 37vh;}
+    .global .inner .maplogo .wave{left: 18vh;top: 38vh;}
+    .global .inner .cuntry .Africa{top: 41vh; font-size: 20px; height: 34px; font-weight: 500; left: -15vw}
+    .global .inner .cuntry .Asia{ top: 31vh;  font-size: 20px; height: 34px; width: 100px; font-weight: 500;}
+    .global .inner .cuntry .Europe{top: 21vh; width: 109px; font-size: 20px; height: 34px; font-weight: 500;}
+    .global .inner .cuntry .LatinAmerica{left: 62vw; top: 47vh; font-size: 20px; height: 34px; font-weight: 500;}
+    .global .inner .bottom .count .contents em{top: 36vh; font-size: 40px;}
+    .track span{font-size: 350px;}
+    .global .inner .conbox .bottom .count .contents span{font-size: 350px;}
+    .global .inner .bottom .txtbox .tit{font-size: 32px;}
+    .global .inner .bottom .txtbox .txt{font-size: 20px;}
+    .global .inner .bottom{left: 38%; top: 48%;}
+    .customer .inner{top:20vh;}
+    .customer .inner .conbox h2{font-size: 190px;}
+    .customer .inner .conbox .main{font-size: 20px;}
+    .customer .inner .conbox a{font-size: 22px;}
+    footer{background: #fff;}
+    footer .inner{width: 100%; position: relative;  padding: 40px 20px;}
+    footer .inner .top .left ul li {margin-bottom: 0;padding: 0;}
+    footer .inner .top{display: block;} 
+    footer .inner .top .left{display: block;} 
+    footer .inner .bottom{flex-wrap: nowrap;}
+    footer .inner .top .mainaddress li {margin-left: 0;}
+    footer .inner .top .left .img {margin-bottom: 30px;}
+    footer .inner .top .left ul {width: 200%; display: flex; gap: 40px;}
+    footer .inner .top .left ul li {display: inline-block; width: 60;}
+    footer .inner .top .left ul li p{display: inline; margin: 0;}
+    footer .inner .top .left .txt1, footer .inner .top .left .txt2 {font-size: 15px;}
+    footer .bottom {display: flex;flex-direction: column;align-items: flex-start;gap: 10px;margin-top: 30px;}
+    footer .bottom ul {order: 0;padding: 0;}
+    footer .bottom .footer-copyright {order: 1;margin-left: 0;}
+    footer .bottom .icon{position: absolute; top: 24vh;}
+    footer .bottom  .icon ul li a{font-size: 30px;}
+    footer .inner .top .mainaddress{width: 100%; margin-top: 70px; margin-bottom: 80px;}
+    footer .inner .top .mainaddress li .place{font-size: 16px;}
+    footer .inner .top .mainaddress li .address{font-size: 15px;}
+    footer .bottom .footer-copyright{font-size: 14px;}
+    footer .inner .top .right li h3{font-size: 16px;}
+    footer .inner .top .right li p{font-size: 14px;}
+    }
+
+    /* 1270p  1201구간 */
+    @media screen and (max-width:1270px){
+      .vision .txt .tit{width: 111%;}
+      .vision .txt .main{font-size: 24px;}
+      .vision .txt .sub{font-size: 18px; font-weight: normal;}
+      .customer .inner .conbox h2{font-size: 170px;}
+      .customer .inner .conbox .main{font-size: 19px; font-weight: normal;}
+      .customer .inner .conbox a{font-size: 18px; margin-bottom: 15px;}
+      .customer .inner .conbox a::before{width: 40%; left: -20%;}
+    
+      }
+
+
+
+/* 1200p x 1156px 구간 */
+
+@media screen and (max-width:1200px){
+  .vision .txt .tit{width: 111%;}
+  .vision .txt .main{font-size: 24px;}
+  .vision .txt .sub{font-size: 18px; font-weight: normal;}
+  .customer .inner{top:20vh;}
+  .customer .inner .conbox h2{font-size: 170px;}
+  .customer .inner .conbox .main{font-size: 19px; font-weight: normal;}
+  .customer .inner .conbox a{font-size: 18px; margin-bottom: 15px;}
+  .customer .inner .conbox a::before{width: 40%; left: -20%;}
+
+  .global .conbox h2.tit{left: 37%; font-size: 150px;}
+  .global .inner .mapLogo{top: 29vh; left: 111px; width: 100px; height: 38px;}
+  .global .inner .mapLogo img{margin-left: 14px;}
+  .global .inner .maplogo .dot{left: 17.5vh; top: 35vh; width: 4px; height: 4px;}
+  .global .inner .maplogo .wave{left: 17vh;top: 35vh; width: 20px; height: 20px;}
+  .global .inner .cuntry .Africa{top: 41vh; font-size: 20px; height: 34px; font-weight: 500; left: -15vw}
+  .global .inner .cuntry .Asia{ top: 31vh;  font-size: 20px; height: 34px; width: 100px; font-weight: 500;}
+  .global .inner .cuntry .Europe{top: 21vh; width: 109px; font-size: 20px; height: 34px; font-weight: 500;}
+  .global .inner .cuntry .LatinAmerica{left: 62vw; top: 47vh; font-size: 20px; height: 34px; font-weight: 500;}
+  
+
+  footer .inner .top .right {width: 60%;}
+
+  }
+
+
+
+  /* 1155p x 1115px 구간 */
+  @media screen and (max-width:1155px){
+  .vision .txt .tit{width: 111%;}
+  .vision .txt .main{font-size: 24px;}
+  .vision .txt .sub{font-size: 18px; font-weight: normal;}
+  .customer .inner{top:20vh;}
+  .customer .inner .conbox h2{font-size: 170px;}
+  .customer .inner .conbox .main{font-size: 19px; font-weight: normal;}
+  .customer .inner .conbox a{font-size: 18px; margin-bottom: 15px;}
+  .customer .inner .conbox a::before{width: 40%; left: -20%;}
+  .global .inner .maplogo .dot{display: none;}
+
+  }
+
+
+    /* 1115px 1025px 구간 */
+  @media screen and (max-width:1115px){
+    .vision .txt .tit{width: 120%; margin: 0 auto; margin-left: -9%;}
+    .vision .txt .main{font-size: 24px; width: 110%;}
+    .vision .txt .sub{font-size: 17px; font-weight: normal; width: 200%;}
+    .product .inner .right ul {display: flex !important;  width: 100%; align-items: stretch !important; }
+    /* .product .inner .right ul li:nth-child(3) img{ max-height: 280px; margin-top: 164px; width: 100%; transform: scale(1.4); } */
+    .global .inner .mapLogo{width: 95px;}
+    .global .inner .maplogo .wave{left: 17vh;top: 35vh; width: 20px; height: 20px;}
+    .global .inner .cuntry .Africa{top: 39vh; font-size: 18px; height: 28px; font-weight: 500; left: -15vw}
+    .global .inner .cuntry .Asia{ top: 28vh;  font-size: 18px; height: 30px; width: 95px; font-weight: 500;}
+    .global .inner .cuntry .Europe{top: 20vh; width: 100px; font-size: 18px; height: 30px; font-weight: 500;}
+    .global .inner .cuntry .LatinAmerica{left: 62vw; top: 41vh; font-size: 18px; height: 28px; font-weight: 500;}
+    .global .conbox h2.tit{left: 39%; font-size: 130px;}
+    .global .inner .mapLogo{top: 29vh; left: 111px; width: 100px; height: 38px;}
+    .global .inner .bottom .count .contents em{top: 36vh; font-size: 38px;}
+    .track span{font-size: 330px;}
+    .global .inner .conbox .bottom .count .contents span{font-size: 330px;}
+    .global .inner .bottom .txtbox .tit{font-size: 28px;}
+    .global .inner .bottom .txtbox .txt{font-size: 19px; font-weight: normal;}
+    .global .inner .bottom{left: 38%; top: 48%;}
+    .customer .inner{top:20vh;}
+    .customer .inner .conbox h2{font-size: 170px;}
+    .customer .inner .conbox .main{font-size: 19px; font-weight: normal;}
+    .customer .inner .conbox a{font-size: 18px; margin-bottom: 15px;}
+    .customer .inner .conbox a::before{width: 40%; left: -20%;}
+
+    footer .inner .top .left .txt1, footer .inner .top .left .txt2 {font-size: 13px;}
+    footer .bottom .icon{position: absolute; top: 23vh;}
+    footer .bottom  .icon ul li a{font-size: 28px;}
+    footer .inner .top .mainaddress{width: 100%; margin-top: 40px; margin-bottom: 80px;}
+    footer .inner .top .mainaddress li .place{font-size: 14px;}
+    footer .inner .top .mainaddress li .address{font-size: 13px;}
+    footer .bottom .footer-copyright{font-size: 13px;}
+    footer .inner .top .right li h3{font-size: 14px;}
+    footer .inner .top .right li p{font-size: 13px;}
+  
+    }
+
+
+   /* 1024px 769px 구간 */
+ @media screen and (max-width:1024px){
+.mallbtn{font-size: 13px; width: 149px; padding: 6px 13px; top: -16px;}
+.marquee{font-size: 160px;}
+.visual .conbox .txt{font-weight: 600; font-size: 27px;}
+.vision .txt .tit{font-size: 200px;}
+.menuopen .menuWrap .tit{width: 86%;}
+.vision .txt .main{font-size: 24px; width: 200%;}
+.vision .txt .sub{width: 200%; font-size: 16px;}
+.vision .txt .con{margin-left: 50%;}
+.product h2 .char{font-size: 110px !important;}
+.product .inner .left .txt p{font-size: 27px;}
+.global .inner .mapLogo{top: 24vh; left: 89px; width: 91px; height: 34px;}
+.global .conbox h2.tit{left: 39%; font-size: 130px;}
+.global .inner .maplogo .wave{left: 14vh;top: 29vh; width: 15px; height: 15px;}
+.global .inner .cuntry .Africa{top: 34vh; font-size: 16px; height: 26px; font-weight: 500; left: -15vw}
+.global .inner .cuntry .Asia{ top: 25vh;  font-size: 15px; height: 23px; width: 80px; font-weight: 500;}
+.global .inner .cuntry .Europe{top: 17vh; width: 90px; font-size: 15px; height: 23px; font-weight: 500;}
+.global .inner .cuntry .LatinAmerica{left: 62vw; top: 41vh; font-size: 16px; height: 28px; font-weight: 500;}
+.global .inner .bottom .count .contents em{top: 36vh; font-size: 36px;}
+.track span{font-size: 300px;}
+.global .inner .conbox .bottom .count .contents span{font-size: 300px;right:-21vh; top: 2vh;}
+.global .inner .bottom .txtbox .tit{font-size: 25px;}
+.global .inner .bottom .txtbox .txt{font-size: 16px; font-weight: normal;}
+.global .inner .bottom{left: 33%; top: 47%;}
+.customer .inner .conbox h2{font-size: 152px;}
+.customer .inner .conbox .main{font-size: 17px;}
+
+ }
+
+
+  /* 768px 501px 구간 */
+   @media screen and (max-width:768px){
+    .innerheader .left h1 img{width: 100%;}
+
+
+
+
+
+   }
+
+
+
+
+  /* 500이하px 구간 */
+  @media screen and (max-width:425px){
+    .innerheader .left h1 img{width: 67%;}
+    .mallbtn .mall-txt {display: none;}
+    .mallbtn{width: 30%; padding: 7px 23px;}
+    .mallbtn .lnr{font-size: 15px; text-align: center; display: block; margin-left: -6px;}
+    nav .gbnbtn{width: 39px;}
+    .innerheader .tnb{margin-left:-70px;}
+    .menuWrap .gnb [data-splitting] .char {
+    display: inline;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+.menuopen .menuWrap .tit{display: block; top:3%}
+.menuopen .menuWrap .tit .txt{font-size: 22px; margin-bottom: 12px;}
+.menuopen .menuWrap .tit .inner{margin-bottom: 30px; line-height: 2;}
+  
+    .scroll-icon .bg{left: 17.5vh;}
+    .marquee{font-size: 135px;} 
+    .visual .conbox .txt{font-size: 19px; font-weight: 500;}
+    .scroll-icon{margin-left: -100px;}
+    .vision .txt .tit{font-size: 95px; width: 32vh; margin-left: 0; margin-bottom: 30px;}
+    .vision .txt .con{ margin-left: -45px;}
+    .vision .txt .sub{font-size: 15px;}
+    .bgimg img{width: 136%; position: relative;top: 17vh;}
+    .vision{height: 39vh;}
+    .vision .innerbox{top: -4vh;}
+    .product{padding-bottom: 140px;}
+    .product h2 .char{font-size: 80px !important;margin-bottom: 5px;}
+    .product .inner .left .txt p{font-size: 17px; margin-bottom: 35px;}
+    .product .inner .right ul{width: 100%;}
+    .product .inner .right ul li{ width: 50% !important; height: 550px; }
+    .product .inner .right ul li p.tit{font-size: 30px;}
+    .product .inner .right ul li p.txt{font-size: 16px;}
+    .product .inner .right ul li{overflow: hidden;}
+    .product .inner .right ul li:nth-child(1) img{margin-top: 71px;}
+    
+    .product-slide {width: 100%;overflow: hidden;}
+  
+    .product-slide li {width: calc(100% / 2.5);  /* 이게 핵심! 2.5개 보이게 정확 계산 */flex: 0 0 auto;}
+    .slick-track {display: flex !important;}
+    .slick-slide {float: none !important;display: block !important;}
+    .global{min-height: 78vh;}
+    .global .conbox h2.tit{font-size: 86px; width: 75%;left: 31%;}
+    .global .inner .cuntry{display: none;}
+    .global .inner .maplogo .wave{display: none;}
+    .global .inner .mapLogo{display: none;}
+    .global .inner .bottom{left: -12%;}
+    .track span{font-size: 150px; margin-left: 10vh;}
+    .global .inner .conbox .bottom .count .contents span{font-size: 150px; right: -17vh; top: 11vh;}
+    .global .inner .bottom .count .contents::before{right: -23vh; top: 12vh;}
+    .global .inner .bottom .count .contents em{top: 27vh; font-size: 20px;}
+    .global .inner .bottom .txtbox{margin-top: -19vh;}
+    .global .inner .bottom .txtbox .tit{font-size: 20px; text-align: center;}
+    .global .inner .bottom .txtbox .txt{font-size: 16px; text-align: center; margin-bottom: 28px;}
+    .global .inner .arrow-line{left: 14vh;}
+    .customer .mainbg span img{display: none;}
+    .customer .mainbg{height: 584px;}
+    .customer .inner{width: 80%;}
+    .customer .inner .conbox h2{ font-size: 81px;width: fit-content;margin: 0 auto;text-align: center; margin-bottom: 5px;}
+    .customer .inner .conbox .main{font-size: 18px; width: 120%; width: fit-content;margin: 0 auto; margin-bottom: 40px; color: #000;}
+    .customer .inner .conbox a::before{width: 90%; left: -46%;}
+  
+    footer .inner .top .right{width: 111%;}
+    footer .inner .top .right li h3{font-size: 12px;}
+    footer .inner .top .right li p{font-size: 12px;}
+    footer .inner .top .mainaddress li .place{font-size: 13px;}
+    }
+
+
