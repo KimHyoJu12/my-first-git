@@ -272,7 +272,7 @@ function activateOnly(targetTxt) {
         overwrite: true
       });
     } else {
-      txt.style.color = "#A5A5A5";
+      txt.style.color = "#898989ff";
       gsap.to(keywords, {
         opacity: 0,
         y: 20,
@@ -364,7 +364,7 @@ gsap.timeline({
     trigger: '.story', 
     start: '10% 90%',
     end: 'top 60%',
-    scrub: 1,
+    scrub: true,
     // markers: true
   }
 })
@@ -441,12 +441,11 @@ gsap.timeline({
     trigger: '.designIntro', 
     start: '10% 90%',
     end: '100% 100%',
-    scrub: 1,
+    scrub: true,
     // markers: true
   }
 })
-.to('.wrap', { backgroundColor:'#000', color:'#fff', ease:'none', duration:5 }, 0);
-
+.to('.wrap', { backgroundColor:'#101010', color:'#fff', ease:'none', duration:5 }, 0);
 
 
 
@@ -518,9 +517,6 @@ gsap.timeline({
 
 
 
-
-
-// worklist 2 
 // worklist 2 
 (function attachWroklis2Carousel(){
   if (document.readyState === 'loading') {
@@ -791,79 +787,65 @@ if (prevBtn && nextBtn) {
 
 
 // process
-/* ===== Process: pinned stepper ===== */
-/* ===== Process: pinned stepper (textBox 고정) ===== */
-(() => {
-  gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.create({
+            trigger: '.process',
+            start: "top 80%",
+            end: "bottom center",
+            toggleClass: {targets: '.process .title', className: "active"},
+            //markers: true,
+    });
+    
+    // 3. 텍스트 변경
+    gsap.utils.toArray(".dataText").forEach(function (text) {
 
-  const section = document.querySelector('.portfolio');
-  const box = section?.querySelector('.processBox');
-  if (!box) return;
+            var num = text.getAttribute('data-text'); 
+            let counter = document.querySelector(".process .title"); 
 
-  const textTrack  = box.querySelector('.textTrack') || box.querySelector('ul');
-  const items      = Array.from(textTrack.children);
-  const imageTrack = box.querySelector('.imageTrack');
+            ScrollTrigger.create({
+                trigger: text,
+                start: '0 50%', 
+                end: '100% 50%', 
+                scrub: true,
+                onEnter: self => counter.innerHTML = num, 
+                onEnterBack: self => counter.innerHTML = num, 
+                //markers: true,
+            });
+            
+    });
+    
+    // 4. 이미지 밝기 조절
+    gsap.utils.toArray(".process > ul > li .imgBox li img").forEach(function (img) {
 
-  // 오른쪽 이미지 수집
-  imageTrack.innerHTML = '';
-  items.forEach(li => {
-    const img = li.querySelector('.right img');
-    const slide = document.createElement('div');
-    slide.className = 'img-slide';
-    if (img) slide.appendChild(img.cloneNode(true));
-    imageTrack.appendChild(slide);
-  });
-  // 원본 오른쪽 숨김
-  items.forEach(li => {
-    const r = li.querySelector('.right');
-    if (r) r.style.display = 'none';
-  });
+            ScrollTrigger.create({
+                trigger: img,
+                start: '0 50%', 
+                end: '100% 50%', 
+                scrub: true,
+                //markers: true,
+                onEnter: () => gsap.to(img, { filter: 'brightness(100%)'}),
+            });          
+    });
+    
+    // 5. 배경색 변경
+    gsap.utils.toArray(".bg").forEach(function (bg) {
 
-  const slides = Array.from(imageTrack.children);
-  const total  = Math.max(0, items.length - 1);
-
-  const setActive = i => {
-    items.forEach((el, idx)  => el.classList.toggle('is-active', idx === i));
-    slides.forEach((el, idx) => el.classList.toggle('is-active', idx === i));
-  };
-  setActive(0);
-
-  const headerH = document.querySelector('header')?.offsetHeight || 0;
-
-  ScrollTrigger.create({
-    trigger: section,
-    start: () => `top+=${headerH}`,
-    end: () => '+=' + (window.innerHeight * total),
-    pin: true,               // 섹션 전체를 고정
-    pinReparent: true,
-    scrub: 1,
-    snap: total ? {
-      snapTo: 1 / total,
-      duration: 0.2,
-      ease: 'power1.inOut',
-      inertia: false
-    } : false,
-    anticipatePin: 1,
-    onUpdate(self) {
-      const i = Math.round(self.progress * total);
-      setActive(i);
-    }
-    // markers: true
-  });
-
-  const refresh = () => ScrollTrigger.refresh();
-  window.addEventListener('load', refresh);
-  window.addEventListener('resize', refresh);
-})();
-
-
-
-
-
-
+        var bgColor = bg.getAttribute('data-bgColor'); //HTML portfolio .list li 에 data-color 작성
+        var textColor = bg.getAttribute('data-textColor');
+            
+        ScrollTrigger.create({
+            trigger: bg,
+             start: 'top center',
+              end: 'bottom center',
+              markers: true,
+            scrub: true,
+            onEnter: () => gsap.to('.wrap', { backgroundColor: bgColor, color: textColor}),
+            onEnterBack: () => gsap.to('.wrap', { backgroundColor: bgColor, color: textColor}),
+             // 🎯 추가: 위로 올라갈 때 검정으로 복구
+  onLeaveBack: () => gsap.to('.wrap', { backgroundColor: '#101010', color: '#fff' }),
+        });
+    }); 
 
 });
-
 
 
 // topbutton
