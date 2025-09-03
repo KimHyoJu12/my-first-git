@@ -129,8 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-
 // daily video
 $(function(){
  gsap.registerPlugin(ScrollTrigger);
@@ -484,13 +482,38 @@ gsap.timeline({
 // 동영상
   // 전역 커서 요소를 body에 추가
   const cursor = document.createElement('div');
-  cursor.classList.add('work-custom-cursor');
-  document.body.appendChild(cursor);
+cursor.classList.add('work-custom-cursor');
+document.body.appendChild(cursor);
 
-  document.querySelectorAll('#work .imgBox, .wroklis2 .imgBox').forEach(box => {
-    const video = box.querySelector('.thumb-video');
+// 모든 imgBox에 공통 이벤트
+document.querySelectorAll('#work .imgBox, .wroklis2 .imgBox').forEach((box, idx) => {
+  const video = box.querySelector('.thumb-video');
 
-    if (video) {
+  if (video) {
+    // 첫 번째 li는 hover 필요 없이 자동재생
+    if (idx === 0) {
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.autoplay = true; // 모바일 브라우저 호환
+      video.currentTime = 0;
+      video.play().catch(() => {});
+
+      // 뷰포트 감지해서 보일 때만 재생/일시정지 (성능 최적화)
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
+          });
+        }, { threshold: 0.25 });
+        io.observe(box);
+      }
+    } else {
+      // 다른 li는 hover 시 재생/정지
       box.addEventListener('mouseenter', () => {
         video.currentTime = 0;
         video.play();
@@ -499,21 +522,56 @@ gsap.timeline({
         video.pause();
       });
     }
+  }
 
-    // 마우스 움직임에 따라 커서 위치 이동
-    box.addEventListener('mousemove', (e) => {
-      const x = e.clientX;
-      const y = e.clientY;
+  // 마우스 움직임에 따라 커서 위치 이동
+  box.addEventListener('mousemove', (e) => {
+    const x = e.clientX;
+    const y = e.clientY;
 
-      cursor.style.left = `${x}px`;
-      cursor.style.top = `${y}px`;
-      cursor.style.display = 'block';
-    });
-
-    box.addEventListener('mouseleave', () => {
-      cursor.style.display = 'none';
-    });
+    cursor.style.left = `${x}px`;
+    cursor.style.top = `${y}px`;
+    cursor.style.display = 'block';
   });
+
+  box.addEventListener('mouseleave', () => {
+    cursor.style.display = 'none';
+  });
+});
+
+
+// worklistintro
+const sec = document.querySelector(".work-intro");
+const circle = sec.querySelector(".intro_circle");
+
+gsap.timeline({
+  scrollTrigger: {
+    trigger: sec,
+    start: "top top",
+    end: "+=150%",
+    scrub: 1.2,
+    pin: true,
+    // markers: true,
+  }
+})
+.to(circle, { 
+  scale: 0, 
+  duration: 2.6, 
+  ease: "power1.inOut" 
+}, ">+=0.3");
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -787,63 +845,88 @@ if (prevBtn && nextBtn) {
 
 
 // process
+// 0) 중복 트윈 방지 + 스무딩
+let __currentBG = null;
+let __currentColor = null;
+function applyTheme(bg, color) {
+  if (__currentBG === bg && __currentColor === color) return; // 같은 색이면 스킵
+  __currentBG = bg;
+  __currentColor = color;
+  gsap.to('.wrap', {
+    backgroundColor: bg,
+    color: color,
+    duration: 0.25,       // 전환 스무딩
+    overwrite: 'auto',
+    immediateRender: false
+  });
+}
+
+// 1) 제목 토글 (동일)
 ScrollTrigger.create({
-            trigger: '.process',
-            start: "top 80%",
-            end: "bottom center",
-            toggleClass: {targets: '.process .title', className: "active"},
-            //markers: true,
-    });
-    
-    // 3. 텍스트 변경
-    gsap.utils.toArray(".dataText").forEach(function (text) {
+  trigger: '.process',
+  start: 'top 80%',
+  end: 'bottom center',
+  toggleClass: { targets: '.process .title', className: 'active' },
+  // markers: true,
+});
 
-            var num = text.getAttribute('data-text'); 
-            let counter = document.querySelector(".process .title"); 
+// 2) 타이틀 텍스트 변경 (동일)
+gsap.utils.toArray('.dataText').forEach(function (text) {
+  const num = text.getAttribute('data-text');
+  const counter = document.querySelector('.process .title');
 
-            ScrollTrigger.create({
-                trigger: text,
-                start: '0 50%', 
-                end: '100% 50%', 
-                scrub: true,
-                onEnter: self => counter.innerHTML = num, 
-                onEnterBack: self => counter.innerHTML = num, 
-                //markers: true,
-            });
-            
-    });
-    
-    // 4. 이미지 밝기 조절
-    gsap.utils.toArray(".process > ul > li .imgBox li img").forEach(function (img) {
+  ScrollTrigger.create({
+    trigger: text,
+    start: '0 50%',
+    end: '100% 50%',
+    scrub: true,
+    onEnter:     () => (counter.innerHTML = num),
+    onEnterBack: () => (counter.innerHTML = num),
+    // markers: true,
+  });
+});
 
-            ScrollTrigger.create({
-                trigger: img,
-                start: '0 50%', 
-                end: '100% 50%', 
-                scrub: true,
-                //markers: true,
-                onEnter: () => gsap.to(img, { filter: 'brightness(100%)'}),
-            });          
-    });
-    
-    // 5. 배경색 변경
-    gsap.utils.toArray(".bg").forEach(function (bg) {
+// 3) 이미지 밝기 (필요 시 유지)
+gsap.utils.toArray('.process > ul > li .imgBox li img').forEach(function (img) {
+  ScrollTrigger.create({
+    trigger: img,
+    start: '0 50%',
+    end: '100% 50%',
+    scrub: true,
+    // markers: true,
+    onEnter: () => gsap.to(img, { filter: 'brightness(100%)' }),
+  });
+});
 
-        var bgColor = bg.getAttribute('data-bgColor'); //HTML portfolio .list li 에 data-color 작성
-        var textColor = bg.getAttribute('data-textColor');
-            
-        ScrollTrigger.create({
-            trigger: bg,
-             start: 'top center',
-              end: 'bottom center',
-              markers: true,
-            scrub: true,
-            onEnter: () => gsap.to('.wrap', { backgroundColor: bgColor, color: textColor}),
-            onEnterBack: () => gsap.to('.wrap', { backgroundColor: bgColor, color: textColor}),
-             // 🎯 추가: 위로 올라갈 때 검정으로 복구
-  onLeaveBack: () => gsap.to('.wrap', { backgroundColor: '#101010', color: '#fff' }),
-        });
-    }); 
+// 4) 배경/글자색 전환 - 깜빡임 방지 구성
+//    각 .bg 항목에서는 '적용만' 한다. (onLeaveBack 제거)
+gsap.utils.toArray('.process .bg').forEach(function (bg) {
+  const bgColor   = bg.getAttribute('data-bgColor')   || '#fff';
+  const textColor = bg.getAttribute('data-textColor') || '#000';
+
+  ScrollTrigger.create({
+    trigger: bg,
+    start: 'top 75%',      // 경계 여유
+    end:   'bottom 25%',
+     scrub: true,     // 상태 전환 → scrub 불필요
+    // markers: true,
+    onEnter:     () => applyTheme(bgColor, textColor),
+    onEnterBack: () => applyTheme(bgColor, textColor),
+   
+  });
+});
+
+// 5) 섹션 외곽 센티넬 - 섹션을 '완전히' 벗어날 때만 기본색 복귀
+ScrollTrigger.create({
+  trigger: '.process',
+  start: 'top bottom',    // 섹션이 보이기 직전
+  end:   'bottom top',    // 섹션이 완전히 사라질 때
+  // markers: true,
+  onLeave:     () => applyTheme('#101010', '#fff'),  // 아래로 통과
+  onLeaveBack: () => applyTheme('#101010', '#fff'),  // 위로 통과
+});
+
+
 
 });
 

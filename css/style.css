@@ -409,6 +409,11 @@ line-height: 1.3;color:#7a7a7a;}
   pointer-events: auto;
 }
 
+/* 첫 번째 카드 전용: 처음부터 영상 보이기 */
+.imgBox.is-video-default .thumb-video { opacity: 1; }
+.imgBox.is-video-default .thumb-img   { opacity: 0; }
+
+
 .work-custom-cursor {
   position: fixed;
   width: 150px;
@@ -426,7 +431,7 @@ line-height: 1.3;color:#7a7a7a;}
 
 .wroklist .workTrack .workItem .right {width: 90%; height: 100vh;display: flex;
 padding: 30px 100px;background: linear-gradient( to top,rgba(242, 151, 179, 0.47) 0%,rgba(18, 18, 18, 1) 100%);color: #fff;box-sizing: border-box;}
-.wroklist .workTrack .workItem .right .box {max-width: 700px; width: 100%; margin-top: clamp(250px, 72vh, 300px)}
+.wroklist .workTrack .workItem .right .box {max-width: 700px; width: 100%; margin-top: clamp(200px, 72vh, 250px)}
 .wroklist .workTrack .workItem .right .box .topBox{margin-bottom: 50px;}
 .wroklist .workTrack .workItem .right .box .topBox .project{font-size: 25px; font-weight: 500;}
 .wroklist .workTrack .workItem .right .box .topBox .project span{color: #FF669B;}
@@ -469,20 +474,24 @@ opacity: 0; font-weight: bold; transition: opacity 0.5s ease, right 0.5s ease;}
 .wroklist .workTrack li:nth-child(3) .right .box .bottomBox .left{border-right: 0.8px solid #101010;}
 
 
-/* teamPNG */
-.teamPNG{position: relative;  justify-content:flex-start;   /* 가로 왼쪽 */
-  align-items:flex-end;         /* 세로 아래 */ height: 100vh; background: url(../img/teampng.png) no-repeat center 0% / cover; }
-.teamPNG .inner{max-width: 1600px;}
-.teamPNG .inner .textBox{padding-top: 15vw;}
-.teamPNG .inner p{ font-size: 4.5vw;font-weight: 500; }
-.teamPNG .inner .en{color: #9079FF;}
+/* wroklis2 intro*/
+.work-intro {position: relative;height: 100vh;overflow: hidden;
+background: #101010;}
+.work-intro .intro_circle {position: absolute;
+top: 50%; left: 50%; width: 200vmax; height: 200vmax;transform: translate(-50%, -50%) scale(1);transform-origin: 50% 50%;
+border-radius: 50%; background: #ffffff;z-index: 1;will-change: transform;}
+.work-intro .textBox {position: absolute;left: 50%; top: 50%;
+  transform: translate(-50%, -50%);width: 100%;display: flex; flex-direction: column;justify-content: center; align-items: center;gap: 50px;z-index: 2;color: #101010;}
+.work-intro .en {font-size: 200px; font-weight: 500;}
+.work-intro .intro-title {font-size: 20px;}
+
 
 /* wroklis2 */
-.wroklis2{ min-height: 100vh; padding-top: 40vh;} 
+.wroklis2{ min-height: 100vh; padding-top: 20vh;} 
 .wroklis2 .inner{ min-height:100vh;}
 .wroklis2 .inner .topBox{margin-bottom: 150px;}
 .wroklis2 .inner .topBox .mainTxt{font-size: clamp(45px,10vw,73px); text-align: right; margin-bottom: 15px;}
-.wroklis2 .inner .topBox .subtitle{padding-left: 5px; text-align: right;}
+.wroklis2 .inner .topBox .subtitle{text-align: right;}
 .wroklis2 .inner .bottomBox .conBox .item { align-items: center;}
 .wroklis2 .inner .bottomBox .conBox .item .imgBox{width:100%; direction: ltr;  transition: transform 0.2s linear;transform-style: preserve-3d;  will-change: transform; height:100%; overflow:hidden;}
 .wroklis2 .inner .bottomBox .conBox .item .imgBox img{width:100%;  height:100%; object-fit:cover; transform: scale(1);}
@@ -636,6 +645,8 @@ height: 30px; background: linear-gradient(180deg, #601593 0%, #4631BC 70%, #2E4B
 
 /*  processIntro */
 .processIntro { position: relative; height: 100vh; padding: 0 45px;}
+.processIntro .topBox .title{font-size: 60px;}
+.processIntro .topBox .en{font-style: italic;}
 .processIntro .viewport{position: relative;height: 100vh;overflow: visible;}
 /* 뒤에 깔리는 큰 타이틀(카드 뒤에, 위쪽 위치) */
 .processIntro h2{position: absolute;top: 50%;      
@@ -936,6 +947,8 @@ animation: unfoldTop 1s ease-out forwards;animation-delay: 0.4s;}
 
 .philosophy .inner.motion .topBox .textBox{animation-name: slideup2; animation-duration:1s;}
 
+
+.work-intro h2.motion{animation-name: slideup2; animation-duration:1.2s;}
 
 
 
