@@ -142,7 +142,7 @@ $(function(){
       // markers: true  // 디버깅 중엔 true, 나중엔 지워도 됨
     }
   })
-    .fromTo('.daily-video video',{width:'0', height:'0', top:'3%', duration:'10', ease:'elastic'},{width:'100%', height:'1200px', duration:'10', ease:'none', top:'0%' },0)
+    .fromTo('.daily-video video',{width:'0', height:'0', top:'3%', duration:'10', ease:'elastic'},{width:'80%', height:'800px', duration:'10', ease:'none', top:'0%' },0)
 
 
 
