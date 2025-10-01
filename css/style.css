@@ -953,6 +953,8 @@ animation: unfoldTop 1s ease-out forwards;animation-delay: 0.4s;}
   animation-fill-mode: both;
 }
 
+.processIntro .viewport.motion .title{animation-name: slideup2; animation-duration:1s;}
+
 
 .processIntro .viewport.motion ul li {
   animation: slideup2 .7s ease both;
