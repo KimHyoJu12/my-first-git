@@ -117,9 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function animateGlow() {
     gsap.to(glowTarget, {
-      duration: gsap.utils.random(0.8, 1),
+      duration: gsap.utils.random(0.8, 3),
       ease: "sine.inOut",
-      "--glow-x": `${gsap.utils.random(150, 100)}px`, // ← 왼쪽까지 들어오게
+      "--glow-x": `${gsap.utils.random(200, 50)}px`, // ← 왼쪽까지 들어오게
       "--glow-y": `${gsap.utils.random(50, 120)}px`,
       onComplete: animateGlow
     });

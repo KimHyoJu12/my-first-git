@@ -44,7 +44,7 @@ nav{width: 20%;}
 .innerheader .Header-center span{font-size: 20px; font-weight: 500;}
 
 .innerheader .gnb{display: flex; justify-content: space-between;}
-.innerheader .gnb li a{ font-weight: 300; font-size: 15px; display: block;}
+.innerheader .gnb li a{font-size: 16px; display: block;}
 
 /* splitting */
 /* 부모 링크의 위치와 글자 스타일을 유지하도록 설정 */
@@ -92,7 +92,7 @@ width: 100%;color: #9079FF;}
 .value-right {width: 45%;}
 .side-description {font-size: 18px; line-height: 1.6;white-space: pre-line;
  overflow: visible; }
-.side-description::before {content: ""; position: absolute; top: 50%; left: 50%; width: 120px; height: 120px; transform: translate(-50%, -50%);
+.side-description::before {content: ""; position: absolute; top: 50%; left: 50%; width: 130px; height: 130px; transform: translate(-50%, -50%);
 background: linear-gradient(180deg, #601593 0%, #4631BC 70%, #2E4BE2 100%); filter: blur(17px); opacity: 0.8; border-radius: 50%; z-index: -1;}
 .side-description::before {top: var(--glow-y, 50%); left: var(--glow-x, 50%);}
 .side-description {line-height: 1.4; font-size: 22px; font-weight: 300; color: #fff;}
