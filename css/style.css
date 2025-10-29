@@ -115,7 +115,7 @@ display: flex;  flex-direction: column;overflow: hidden;}
 .intro .inner .box{width: 50%;  z-index: 2; text-align: left;  margin-left: 10%; }
 .intro .inner .box .topBox .mainTxt{font-size:1.5vw; letter-spacing: -0.5px; font-weight: 200; margin-bottom: 5px;}
 .intro .inner .box .topBox .mainTxt span{font-size:1.5vw;  letter-spacing: -0.5px; font-weight: 500;}
-.intro .inner .box .centerTxt{font-size: 5vw; font-weight: 500; margin-bottom: 10px; margin-left: -15vw;}
+.intro .inner .box .centerTxt{font-size: 5.2vw; font-weight: 500; margin-bottom: 10px; margin-left: -16vw;}
 .intro .inner .box .bottomBox{margin-bottom: 30px;}
 .intro .inner .box .bottomBox .bottomTxt{font-size:1.5vw; font-weight: 500;}
 .intro .inner .box .K-Box{font-size: 1.1vw; font-weight: 400; }
@@ -151,7 +151,7 @@ border-radius: 12px; object-fit: cover; pointer-events: none; transform: transla
 .about-Intro2 .inner{height: 100vh;margin-top: auto; display: flex; justify-content: center; align-items: end; flex-direction: column; position: relative;}
 .about-Intro2 .inner .Box {position: relative;z-index: 1; }
 .about-Intro2 .inner .Box .intro{font-size: 6vw; margin-bottom: 20px;}
-.subtitle {line-height: 1.3; margin-top: 16px;font-size: 20px;}
+.subtitle {line-height: 1.3;font-size: 20px;}
 .about-Intro2 .Box::before,
 .about-Intro2 .Box::after {content: "";position: absolute;border-radius: 50%;z-index: -1;}
 .about-Intro2 .Box::before {width: 600px;height: 600px;
@@ -245,7 +245,7 @@ opacity: 0.7; z-index: -1; /* 글자 뒤로 */
 .Strength{ padding-top: 40vh;}
 .Strength .inner{ max-width: 1600px;height: 100vh;}
 .Strength .inner .Box .topBox{margin-bottom: 80px;}
-.Strength .inner .Box .topBox .Title{font-size: clamp(15px,10vw,30px); margin-bottom: 15px;}
+.Strength .inner .Box .topBox .Title{font-size: clamp(15px,10vw,32px); margin-bottom: 15px;}
 .Strength .inner .Box .topBox span{color:#F5F5F5;}
 .Strength .inner .Box .bottomBox .txt{font-size: clamp(15px,8vw,174px); color: #A5A5A5; line-height: 1; font-weight: 350; letter-spacing: -5px;}
 .Strength .txt.active {color: #fff;}
