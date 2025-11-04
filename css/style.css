@@ -445,7 +445,7 @@ position: absolute;left: 0; color: #fff;}
 .wroklist .workTrack li:nth-child(3) .role-list li::before {color: #000;}
 
 .wroklist .workTrack .workItem .right .box .topBox .mainTxt{font-size: 60px; margin-bottom: 15px;}
-.wroklist .workTrack .workItem .right .box .topBox .subTxt{font-size: 18px; font-weight: 400;} 
+.wroklist .workTrack .workItem .right .box .topBox .subTxt{font-size: 18px; font-weight: 350;} 
 .wroklist .workTrack .workItem .right .box .bottomBox{display: flex;  align-items:flex-start; }
 .wroklist .workTrack .workItem .right .box .bottomBox .left{border-right: 0.8px solid #ffff; width: 45%; height: 50%;}
 .tool-icons ul {display: flex; gap: 8px; padding: 0;margin: 0;list-style: none; margin-bottom: 15px;}
