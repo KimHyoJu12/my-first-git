@@ -369,7 +369,7 @@ line-height: 1.3;color:#7a7a7a;}
 .designIntro{padding-top: 30vh;}
 .designIntro .inner{height: 100vh; margin-top: auto; display: flex; justify-content: center; align-items: center; flex-direction: column;}
 .designIntro .inner .textBox{text-align: center;}
-.designIntro .inner .textBox .mainTxt{font-size:clamp(80px,5vw,120px); line-height: 1; margin-bottom: 15px; font-weight: 500;}
+.designIntro .inner .textBox .mainTxt{font-size:clamp(80px,5.5vw,120px); line-height: 1; margin-bottom: 15px; font-weight: 500;}
 .designIntro .inner .textBox .mainTxt .word{display: block;}
 .designIntro .inner .textBox .subTxt span{font-size: clamp(15px,5vw,25px); color: #9079FF;}
 
